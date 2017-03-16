@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wqz.ds.dao.VipPushMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.VipPushMsg" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="vip_id" property="vipId" jdbcType="INTEGER" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="is_bought" property="isBought" jdbcType="TINYINT" />
+    <result column="bought_money" property="boughtMoney" jdbcType="VARCHAR" />
+    <result column="bought_list" property="boughtList" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, vip_id, datetime, is_bought, bought_money, bought_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from vip_push_msg
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from vip_push_msg
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.VipPushMsg" >
+    insert into vip_push_msg (id, vip_id, datetime, 
+      is_bought, bought_money, bought_list
+      )
+    values (#{id,jdbcType=INTEGER}, #{vipId,jdbcType=INTEGER}, #{datetime,jdbcType=TIMESTAMP}, 
+      #{isBought,jdbcType=TINYINT}, #{boughtMoney,jdbcType=VARCHAR}, #{boughtList,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.VipPushMsg" >
+    insert into vip_push_msg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="vipId != null" >
+        vip_id,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="isBought != null" >
+        is_bought,
+      </if>
+      <if test="boughtMoney != null" >
+        bought_money,
+      </if>
+      <if test="boughtList != null" >
+        bought_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vipId != null" >
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBought != null" >
+        #{isBought,jdbcType=TINYINT},
+      </if>
+      <if test="boughtMoney != null" >
+        #{boughtMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="boughtList != null" >
+        #{boughtList,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.VipPushMsg" >
+    update vip_push_msg
+    <set >
+      <if test="vipId != null" >
+        vip_id = #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBought != null" >
+        is_bought = #{isBought,jdbcType=TINYINT},
+      </if>
+      <if test="boughtMoney != null" >
+        bought_money = #{boughtMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="boughtList != null" >
+        bought_list = #{boughtList,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.VipPushMsg" >
+    update vip_push_msg
+    set vip_id = #{vipId,jdbcType=INTEGER},
+      datetime = #{datetime,jdbcType=TIMESTAMP},
+      is_bought = #{isBought,jdbcType=TINYINT},
+      bought_money = #{boughtMoney,jdbcType=VARCHAR},
+      bought_list = #{boughtList,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
