@@ -11,6 +11,8 @@ public class VipInfo {
 
     private String otherLabel;
 
+    private String hold;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class VipInfo {
 
     public void setOtherLabel(String otherLabel) {
         this.otherLabel = otherLabel == null ? null : otherLabel.trim();
+    }
+
+    public String getHold() {
+        return hold;
+    }
+
+    public void setHold(String hold) {
+        this.hold = hold == null ? null : hold.trim();
     }
 }

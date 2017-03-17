@@ -7,6 +7,8 @@ public class StoreInfo {
 
     private Integer businessUnitId;
 
+    private String hold;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class StoreInfo {
 
     public void setBusinessUnitId(Integer businessUnitId) {
         this.businessUnitId = businessUnitId;
+    }
+
+    public String getHold() {
+        return hold;
+    }
+
+    public void setHold(String hold) {
+        this.hold = hold == null ? null : hold.trim();
     }
 }

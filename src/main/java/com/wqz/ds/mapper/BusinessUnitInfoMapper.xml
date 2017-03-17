@@ -5,9 +5,10 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="hold" property="hold" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, store_id, name
+    id, store_id, name, hold
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,10 +21,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
-    insert into business_unit_info (id, store_id, name
-      )
-    values (#{id,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
-      )
+    insert into business_unit_info (id, store_id, name, 
+      hold)
+    values (#{id,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{hold,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
     insert into business_unit_info
@@ -37,6 +38,9 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="hold != null" >
+        hold,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -47,6 +51,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="hold != null" >
+        #{hold,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -59,13 +66,17 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="hold != null" >
+        hold = #{hold,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
     update business_unit_info
     set store_id = #{storeId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      hold = #{hold,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

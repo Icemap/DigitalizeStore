@@ -15,6 +15,8 @@ public class UserInfo {
 
     private Integer storeId;
 
+    private String hold;
+
     public Integer getId() {
         return id;
     }
@@ -69,5 +71,13 @@ public class UserInfo {
 
     public void setStoreId(Integer storeId) {
         this.storeId = storeId;
+    }
+
+    public String getHold() {
+        return hold;
+    }
+
+    public void setHold(String hold) {
+        this.hold = hold == null ? null : hold.trim();
     }
 }

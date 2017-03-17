@@ -7,6 +7,8 @@ public class BusinessUnitInfo {
 
     private String name;
 
+    private String hold;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class BusinessUnitInfo {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getHold() {
+        return hold;
+    }
+
+    public void setHold(String hold) {
+        this.hold = hold == null ? null : hold.trim();
     }
 }

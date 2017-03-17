@@ -8,9 +8,10 @@
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="hot_point_path" property="hotPointPath" jdbcType="VARCHAR" />
     <result column="path_path" property="pathPath" jdbcType="VARCHAR" />
+    <result column="hold" property="hold" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, url, is_enter, area, hot_point_path, path_path
+    id, url, is_enter, area, hot_point_path, path_path, hold
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo" >
     insert into camera_info (id, url, is_enter, 
-      area, hot_point_path, path_path
-      )
+      area, hot_point_path, path_path, 
+      hold)
     values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{isEnter,jdbcType=TINYINT}, 
-      #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}
-      )
+      #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}, 
+      #{hold,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo" >
     insert into camera_info
@@ -51,6 +52,9 @@
       <if test="pathPath != null" >
         path_path,
       </if>
+      <if test="hold != null" >
+        hold,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -70,6 +74,9 @@
       </if>
       <if test="pathPath != null" >
         #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="hold != null" >
+        #{hold,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="pathPath != null" >
         path_path = #{pathPath,jdbcType=VARCHAR},
       </if>
+      <if test="hold != null" >
+        hold = #{hold,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,7 +110,8 @@
       is_enter = #{isEnter,jdbcType=TINYINT},
       area = #{area,jdbcType=VARCHAR},
       hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
-      path_path = #{pathPath,jdbcType=VARCHAR}
+      path_path = #{pathPath,jdbcType=VARCHAR},
+      hold = #{hold,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -2,14 +2,12 @@ package com.wqz.ds.pojo;
 
 import java.util.Date;
 
-public class VipPushMsg {
+public class StoreBillsPushMsg {
     private Integer id;
 
-    private Integer vipId;
+    private Integer storeId;
 
     private Date datetime;
-
-    private Byte isBought;
 
     private String boughtMoney;
 
@@ -25,12 +23,12 @@ public class VipPushMsg {
         this.id = id;
     }
 
-    public Integer getVipId() {
-        return vipId;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setVipId(Integer vipId) {
-        this.vipId = vipId;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public Date getDatetime() {
@@ -39,14 +37,6 @@ public class VipPushMsg {
 
     public void setDatetime(Date datetime) {
         this.datetime = datetime;
-    }
-
-    public Byte getIsBought() {
-        return isBought;
-    }
-
-    public void setIsBought(Byte isBought) {
-        this.isBought = isBought;
     }
 
     public String getBoughtMoney() {
