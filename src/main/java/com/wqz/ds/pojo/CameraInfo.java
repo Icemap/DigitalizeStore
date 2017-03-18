@@ -13,6 +13,8 @@ public class CameraInfo {
 
     private String pathPath;
 
+    private Integer storeId;
+
     private String hold;
 
     public Integer getId() {
@@ -61,6 +63,14 @@ public class CameraInfo {
 
     public void setPathPath(String pathPath) {
         this.pathPath = pathPath == null ? null : pathPath.trim();
+    }
+
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public String getHold() {

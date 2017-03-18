@@ -1,7 +1,10 @@
 package com.wqz.ds.dao;
 
+import org.mybatis.spring.annotation.MapperScan;
+
 import com.wqz.ds.pojo.BrandInfo;
 
+@MapperScan
 public interface BrandInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +17,6 @@ public interface BrandInfoMapper {
     int updateByPrimaryKeySelective(BrandInfo record);
 
     int updateByPrimaryKey(BrandInfo record);
+    
+    BrandInfo selectByUserId(Integer userId);
 }

@@ -3,7 +3,7 @@ package com.wqz.ds.pojo;
 public class BusinessUnitInfo {
     private Integer id;
 
-    private Integer storeId;
+    private Integer brandId;
 
     private String name;
 
@@ -17,12 +17,12 @@ public class BusinessUnitInfo {
         this.id = id;
     }
 
-    public Integer getStoreId() {
-        return storeId;
+    public Integer getBrandId() {
+        return brandId;
     }
 
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
     }
 
     public String getName() {

@@ -1,5 +1,7 @@
 package com.wqz.ds.dao;
 
+import java.util.List;
+
 import com.wqz.ds.pojo.CameraInfo;
 
 public interface CameraInfoMapper {
@@ -14,4 +16,10 @@ public interface CameraInfoMapper {
     int updateByPrimaryKeySelective(CameraInfo record);
 
     int updateByPrimaryKey(CameraInfo record);
+    
+    List<CameraInfo> selectByStoreId(Integer storeId);
+
+    List<CameraInfo> selectByBusinessUnitId(Integer businessUnitId);
+
+    List<CameraInfo> selectByBrandId(Integer brandId);
 }

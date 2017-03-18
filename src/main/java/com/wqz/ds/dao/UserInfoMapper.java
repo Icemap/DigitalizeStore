@@ -1,7 +1,11 @@
 package com.wqz.ds.dao;
 
+import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.annotation.MapperScan;
+
 import com.wqz.ds.pojo.UserInfo;
 
+@MapperScan
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,8 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+    
+    UserInfo login(
+    		@Param(value="username")String username ,
+    		@Param(value="password")String password);
 }

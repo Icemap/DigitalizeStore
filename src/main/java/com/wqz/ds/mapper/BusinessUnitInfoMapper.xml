@@ -1,82 +1,156 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wqz.ds.dao.BusinessUnitInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.BusinessUnitInfo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="store_id" property="storeId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="hold" property="hold" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqz.ds.dao.BusinessUnitInfoMapper">
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.BusinessUnitInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="hold" jdbcType="VARCHAR" property="hold" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, store_id, name, hold
+  <sql id="Base_Column_List">
+    id, brand_id, name, hold
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from business_unit_info
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from business_unit_info
+    where id = (select business_unit_id from user_info where id = #{userId,jdbcType=INTEGER})
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from business_unit_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
-    insert into business_unit_info (id, store_id, name, 
+  <insert id="insert" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
+    insert into business_unit_info (id, brand_id, name, 
       hold)
-    values (#{id,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{hold,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
     insert into business_unit_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="storeId != null" >
-        store_id,
+      <if test="brandId != null">
+        brand_id,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="hold != null" >
+      <if test="hold != null">
         hold,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="storeId != null" >
-        #{storeId,jdbcType=INTEGER},
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="hold != null" >
+      <if test="hold != null">
         #{hold,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
     update business_unit_info
-    <set >
-      <if test="storeId != null" >
-        store_id = #{storeId,jdbcType=INTEGER},
+    <set>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="hold != null" >
+      <if test="hold != null">
         hold = #{hold,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.BusinessUnitInfo" >
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
     update business_unit_info
-    set store_id = #{storeId,jdbcType=INTEGER},
+    set brand_id = #{brandId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       hold = #{hold,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.BusinessUnitInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, store_id, name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from business_unit_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from business_unit_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
+    insert into business_unit_info (id, store_id, name
+      )
+    values (#{id,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
+    insert into business_unit_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
+    update business_unit_info
+    <set>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.BusinessUnitInfo">
+    update business_unit_info
+    set store_id = #{storeId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -18,6 +18,60 @@
     from store_bills_push_msg
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="getBillsByBrandId" resultMap="BaseResultMap">
+	SELECT
+	*
+	FROM
+		store_bills_push_msg
+	WHERE
+		store_id IN (
+			SELECT
+				id
+			FROM
+				store_info
+			WHERE
+				business_unit_id IN (
+					SELECT
+						id
+					FROM
+						business_unit_info
+					WHERE
+						brand_id = #{brandId,jdbcType=INTEGER})
+				)
+				AND datetime &gt; #{startTime,jdbcType=VARCHAR}
+				AND datetime &lt; #{endTime,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getBillsByBusinessUnitId" resultMap="BaseResultMap">
+	SELECT
+		*
+	FROM
+		store_bills_push_msg
+	WHERE
+		store_id IN (
+			SELECT
+				id
+			FROM
+				store_info
+			WHERE
+				business_unit_id = #{businessUnitId,jdbcType=INTEGER}
+		)
+		AND datetime &gt; #{startTime,jdbcType=VARCHAR}
+		AND datetime &lt; #{endTime,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getBillsByStoreId" resultMap="BaseResultMap">
+	SELECT
+		*
+	FROM
+		store_bills_push_msg
+	WHERE
+		store_id = #{storeId,jdbcType=INTEGER}
+		AND datetime &gt; #{startTime,jdbcType=VARCHAR}
+		AND datetime &lt; #{endTime,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from store_bills_push_msg
     where id = #{id,jdbcType=INTEGER}

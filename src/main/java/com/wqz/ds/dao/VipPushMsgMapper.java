@@ -1,7 +1,10 @@
 package com.wqz.ds.dao;
 
+import org.mybatis.spring.annotation.MapperScan;
+
 import com.wqz.ds.pojo.VipPushMsg;
 
+@MapperScan
 public interface VipPushMsgMapper {
     int deleteByPrimaryKey(Integer id);
 

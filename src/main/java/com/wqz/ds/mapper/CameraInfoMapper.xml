@@ -1,29 +1,175 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wqz.ds.dao.CameraInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraInfo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="is_enter" property="isEnter" jdbcType="TINYINT" />
-    <result column="area" property="area" jdbcType="VARCHAR" />
-    <result column="hot_point_path" property="hotPointPath" jdbcType="VARCHAR" />
-    <result column="path_path" property="pathPath" jdbcType="VARCHAR" />
-    <result column="hold" property="hold" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqz.ds.dao.CameraInfoMapper">
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="is_enter" jdbcType="TINYINT" property="isEnter" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="hot_point_path" jdbcType="VARCHAR" property="hotPointPath" />
+    <result column="path_path" jdbcType="VARCHAR" property="pathPath" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="hold" jdbcType="VARCHAR" property="hold" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, url, is_enter, area, hot_point_path, path_path, hold
+  <sql id="Base_Column_List">
+    id, url, is_enter, area, hot_point_path, path_path, store_id, hold
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from camera_info
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  
+  <select id="selectByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from camera_info
+    where store_id = #{storeId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByBusinessUnitId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from camera_info
+    where store_id in (select id from store_info where business_unit_id = #{businessUnitId,jdbcType=INTEGER})
+  </select>
+  
+  <select id="selectByBrandId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from camera_info
+    where store_id in 
+    (select id from store_info where business_unit_id in
+    	 (select id from business_unit_info where brand_id = #{brandId,jdbcType=INTEGER})
+    )
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from camera_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo" >
+  <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info (id, url, is_enter, 
+      area, hot_point_path, path_path, 
+      store_id, hold)
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{isEnter,jdbcType=TINYINT}, 
+      #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}, 
+      #{storeId,jdbcType=INTEGER}, #{hold,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="isEnter != null">
+        is_enter,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path,
+      </if>
+      <if test="pathPath != null">
+        path_path,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="hold != null">
+        hold,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="hold != null">
+        #{hold,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        is_enter = #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        path_path = #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="hold != null">
+        hold = #{hold,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    set url = #{url,jdbcType=VARCHAR},
+      is_enter = #{isEnter,jdbcType=TINYINT},
+      area = #{area,jdbcType=VARCHAR},
+      hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      path_path = #{pathPath,jdbcType=VARCHAR},
+      store_id = #{storeId,jdbcType=INTEGER},
+      hold = #{hold,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="is_enter" jdbcType="TINYINT" property="isEnter" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="hot_point_path" jdbcType="VARCHAR" property="hotPointPath" />
+    <result column="path_path" jdbcType="VARCHAR" property="pathPath" />
+    <result column="hold" jdbcType="VARCHAR" property="hold" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, is_enter, area, hot_point_path, path_path, hold
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo">
     insert into camera_info (id, url, is_enter, 
       area, hot_point_path, path_path, 
       hold)
@@ -31,80 +177,80 @@
       #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}, 
       #{hold,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo" >
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo">
     insert into camera_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         url,
       </if>
-      <if test="isEnter != null" >
+      <if test="isEnter != null">
         is_enter,
       </if>
-      <if test="area != null" >
+      <if test="area != null">
         area,
       </if>
-      <if test="hotPointPath != null" >
+      <if test="hotPointPath != null">
         hot_point_path,
       </if>
-      <if test="pathPath != null" >
+      <if test="pathPath != null">
         path_path,
       </if>
-      <if test="hold != null" >
+      <if test="hold != null">
         hold,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="isEnter != null" >
+      <if test="isEnter != null">
         #{isEnter,jdbcType=TINYINT},
       </if>
-      <if test="area != null" >
+      <if test="area != null">
         #{area,jdbcType=VARCHAR},
       </if>
-      <if test="hotPointPath != null" >
+      <if test="hotPointPath != null">
         #{hotPointPath,jdbcType=VARCHAR},
       </if>
-      <if test="pathPath != null" >
+      <if test="pathPath != null">
         #{pathPath,jdbcType=VARCHAR},
       </if>
-      <if test="hold != null" >
+      <if test="hold != null">
         #{hold,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.CameraInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.CameraInfo">
     update camera_info
-    <set >
-      <if test="url != null" >
+    <set>
+      <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="isEnter != null" >
+      <if test="isEnter != null">
         is_enter = #{isEnter,jdbcType=TINYINT},
       </if>
-      <if test="area != null" >
+      <if test="area != null">
         area = #{area,jdbcType=VARCHAR},
       </if>
-      <if test="hotPointPath != null" >
+      <if test="hotPointPath != null">
         hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
       </if>
-      <if test="pathPath != null" >
+      <if test="pathPath != null">
         path_path = #{pathPath,jdbcType=VARCHAR},
       </if>
-      <if test="hold != null" >
+      <if test="hold != null">
         hold = #{hold,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.CameraInfo" >
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.CameraInfo">
     update camera_info
     set url = #{url,jdbcType=VARCHAR},
       is_enter = #{isEnter,jdbcType=TINYINT},
@@ -112,6 +258,334 @@
       hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
       path_path = #{pathPath,jdbcType=VARCHAR},
       hold = #{hold,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="is_enter" jdbcType="TINYINT" property="isEnter" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="hot_point_path" jdbcType="VARCHAR" property="hotPointPath" />
+    <result column="path_path" jdbcType="VARCHAR" property="pathPath" />
+    <result column="hold" jdbcType="VARCHAR" property="hold" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, is_enter, area, hot_point_path, path_path, hold
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info (id, url, is_enter, 
+      area, hot_point_path, path_path, 
+      hold)
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{isEnter,jdbcType=TINYINT}, 
+      #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}, 
+      #{hold,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="isEnter != null">
+        is_enter,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path,
+      </if>
+      <if test="pathPath != null">
+        path_path,
+      </if>
+      <if test="hold != null">
+        hold,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="hold != null">
+        #{hold,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        is_enter = #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        path_path = #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="hold != null">
+        hold = #{hold,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    set url = #{url,jdbcType=VARCHAR},
+      is_enter = #{isEnter,jdbcType=TINYINT},
+      area = #{area,jdbcType=VARCHAR},
+      hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      path_path = #{pathPath,jdbcType=VARCHAR},
+      hold = #{hold,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="is_enter" jdbcType="TINYINT" property="isEnter" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="hot_point_path" jdbcType="VARCHAR" property="hotPointPath" />
+    <result column="path_path" jdbcType="VARCHAR" property="pathPath" />
+    <result column="hold" jdbcType="VARCHAR" property="hold" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, is_enter, area, hot_point_path, path_path, hold
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info (id, url, is_enter, 
+      area, hot_point_path, path_path, 
+      hold)
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{isEnter,jdbcType=TINYINT}, 
+      #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}, 
+      #{hold,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="isEnter != null">
+        is_enter,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path,
+      </if>
+      <if test="pathPath != null">
+        path_path,
+      </if>
+      <if test="hold != null">
+        hold,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="hold != null">
+        #{hold,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        is_enter = #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        path_path = #{pathPath,jdbcType=VARCHAR},
+      </if>
+      <if test="hold != null">
+        hold = #{hold,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    set url = #{url,jdbcType=VARCHAR},
+      is_enter = #{isEnter,jdbcType=TINYINT},
+      area = #{area,jdbcType=VARCHAR},
+      hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      path_path = #{pathPath,jdbcType=VARCHAR},
+      hold = #{hold,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="is_enter" jdbcType="TINYINT" property="isEnter" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="hot_point_path" jdbcType="VARCHAR" property="hotPointPath" />
+    <result column="path_path" jdbcType="VARCHAR" property="pathPath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, is_enter, area, hot_point_path, path_path
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from camera_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info (id, url, is_enter, 
+      area, hot_point_path, path_path
+      )
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{isEnter,jdbcType=TINYINT}, 
+      #{area,jdbcType=VARCHAR}, #{hotPointPath,jdbcType=VARCHAR}, #{pathPath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    insert into camera_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="isEnter != null">
+        is_enter,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path,
+      </if>
+      <if test="pathPath != null">
+        path_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        #{pathPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnter != null">
+        is_enter = #{isEnter,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="hotPointPath != null">
+        hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pathPath != null">
+        path_path = #{pathPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.CameraInfo">
+    update camera_info
+    set url = #{url,jdbcType=VARCHAR},
+      is_enter = #{isEnter,jdbcType=TINYINT},
+      area = #{area,jdbcType=VARCHAR},
+      hot_point_path = #{hotPointPath,jdbcType=VARCHAR},
+      path_path = #{pathPath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
