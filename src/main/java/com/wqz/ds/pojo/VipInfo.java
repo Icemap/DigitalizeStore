@@ -9,6 +9,8 @@ public class VipInfo {
 
     private String phone;
 
+    private Integer brandId;
+
     private String otherLabel;
 
     private String hold;
@@ -43,6 +45,14 @@ public class VipInfo {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Integer getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
     }
 
     public String getOtherLabel() {

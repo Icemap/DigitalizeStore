@@ -54,5 +54,4 @@ public class CameraInfoServiceImpl implements CameraInfoService
 	{
 		return cameraInfoMapper.selectByBrandId(brandId);
 	}
-
 }

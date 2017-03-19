@@ -1,11 +1,13 @@
 package com.wqz.ds.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wqz.ds.dao.BusinessUnitInfoMapper;
 import com.wqz.ds.pojo.BusinessUnitInfo;
 import com.wqz.ds.service.BusinessUnitInfoService;
 
+@Service
 public class BusinessUnitInfoServiceImpl implements BusinessUnitInfoService
 {
 	@Autowired
@@ -40,5 +42,4 @@ public class BusinessUnitInfoServiceImpl implements BusinessUnitInfoService
 	{
 		return businessUnitInfoMapper.selectByPrimaryKey(id);
 	}
-
 }

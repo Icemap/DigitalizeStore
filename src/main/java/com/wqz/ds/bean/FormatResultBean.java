@@ -2,8 +2,15 @@ package com.wqz.ds.bean;
 
 public class FormatResultBean
 {
+	/**
+	 * 1:权限不足
+	 * 2:数据库操作错误
+	 * 3:无数据
+	 * 4:时间转换错误
+	 * 5:登录失败
+	 */
 	Integer errorCode = 0;
-	String errorMsg = "success";
+	String errorMsg = "成功";
 	Object result = "";
 	
 	public void setErrorCode(Integer errorCode)

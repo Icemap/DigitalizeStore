@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService
 	CameraPushMsgMapper cameraPushMsgMapper;
 	
 	@Override
-	public Object userLogin(String username, String password)
+	public UserInfo userLogin(String username, String password)
 	{
 		return userInfoMapper.login(username, password);
 	}
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService
 	}
 	
 	@Override
-	public Object getStoreMsg(Integer userId, String startTime, String endTime)
+	public List<StoreDataBean> getStoreMsg(Integer userId, String startTime, String endTime)
 	{
 		//1.查出店内的结账和人流信息
 		List<StoreBillsPushMsg> billsList = null;

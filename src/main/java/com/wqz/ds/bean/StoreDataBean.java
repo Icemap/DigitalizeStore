@@ -17,7 +17,8 @@ public class StoreDataBean
 	public Integer storeSalesMoney = 0;
 	public Integer perBillCost = 0;
 	public String storeManAndWomanRate = "";
-	
+	public Float bringBagRate = 0.0f;
+	public Float interStoreRate = 0.0f;
 	public int[] customerTotalTime = new int[13];//9-21
 	public int[] moneyTotalTime = new int[13];//9-21
 	
@@ -110,5 +111,8 @@ public class StoreDataBean
 		storeAllCount = storeManCount + storeWomanCount;
 		perBillCost = storeSalesMoney / payManCount;
 		storeManAndWomanRate = storeManCount / storeAllCount + ":" + storeWomanCount / storeAllCount;
+		
+		bringBagRate = payManCount / (storeAllCount * 1.0f);
+		interStoreRate = storeAllCount / (camerasList.size() * 1.0f);
 	}
 }
