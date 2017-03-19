@@ -2,8 +2,11 @@ package com.wqz.ds.dao;
 
 import java.util.List;
 
+import org.mybatis.spring.annotation.MapperScan;
+
 import com.wqz.ds.pojo.VipInfo;
 
+@MapperScan
 public interface VipInfoMapper {
     int deleteByPrimaryKey(Integer id);
 

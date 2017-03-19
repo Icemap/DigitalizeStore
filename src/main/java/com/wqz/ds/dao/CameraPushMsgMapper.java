@@ -3,9 +3,11 @@ package com.wqz.ds.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.annotation.MapperScan;
 
 import com.wqz.ds.pojo.CameraPushMsg;
 
+@MapperScan
 public interface CameraPushMsgMapper {
     int deleteByPrimaryKey(Integer id);
 

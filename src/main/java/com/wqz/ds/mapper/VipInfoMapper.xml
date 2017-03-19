@@ -6,11 +6,12 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="age" property="age" jdbcType="INTEGER" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
     <result column="other_label" property="otherLabel" jdbcType="VARCHAR" />
     <result column="hold" property="hold" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, age, phone, other_label, hold
+    id, name, age, phone, brand_id, other_label, hold
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -49,11 +50,11 @@
   </delete>
   <insert id="insert" parameterType="com.wqz.ds.pojo.VipInfo" >
     insert into vip_info (id, name, age, 
-      phone, other_label, hold
-      )
+      phone, brand_id, other_label, 
+      hold)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{otherLabel,jdbcType=VARCHAR}, #{hold,jdbcType=VARCHAR}
-      )
+      #{phone,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, #{otherLabel,jdbcType=VARCHAR}, 
+      #{hold,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wqz.ds.pojo.VipInfo" >
     insert into vip_info
@@ -69,6 +70,9 @@
       </if>
       <if test="phone != null" >
         phone,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
       </if>
       <if test="otherLabel != null" >
         other_label,
@@ -90,6 +94,9 @@
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
       <if test="otherLabel != null" >
         #{otherLabel,jdbcType=VARCHAR},
       </if>
@@ -110,6 +117,9 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
       <if test="otherLabel != null" >
         other_label = #{otherLabel,jdbcType=VARCHAR},
       </if>
@@ -124,6 +134,7 @@
     set name = #{name,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
       other_label = #{otherLabel,jdbcType=VARCHAR},
       hold = #{hold,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

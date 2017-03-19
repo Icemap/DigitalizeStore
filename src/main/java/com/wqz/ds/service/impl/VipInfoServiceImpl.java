@@ -3,11 +3,13 @@ package com.wqz.ds.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wqz.ds.dao.VipInfoMapper;
 import com.wqz.ds.pojo.VipInfo;
 import com.wqz.ds.service.VipInfoService;
 
+@Service
 public class VipInfoServiceImpl implements VipInfoService
 {
 	@Autowired

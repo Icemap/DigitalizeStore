@@ -22,4 +22,6 @@ public interface UserInfoMapper {
     UserInfo login(
     		@Param(value="username")String username ,
     		@Param(value="password")String password);
+    
+	Integer userGetUsernameCount(String username);
 }

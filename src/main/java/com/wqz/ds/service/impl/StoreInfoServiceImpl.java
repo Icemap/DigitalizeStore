@@ -3,11 +3,13 @@ package com.wqz.ds.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wqz.ds.dao.StoreInfoMapper;
 import com.wqz.ds.pojo.StoreInfo;
 import com.wqz.ds.service.StoreInfoService;
 
+@Service
 public class StoreInfoServiceImpl implements StoreInfoService
 {
 	@Autowired

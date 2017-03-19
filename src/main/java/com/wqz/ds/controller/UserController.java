@@ -22,7 +22,7 @@ public class UserController
 	
 	@RequestMapping("/login")
 	@ResponseBody
-	public Object login(String callback,String username,String password)
+	public JSONPObject login(String callback,String username,String password)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -41,7 +41,7 @@ public class UserController
 	
 	@RequestMapping("/regist")
 	@ResponseBody
-	public Object regist(String callback,
+	public JSONPObject regist(String callback,
 			String username,String password,
 			Integer level,Integer brandId,
 			Integer businessUnitId,Integer storeId,
@@ -74,6 +74,14 @@ public class UserController
 			return new JSONPObject(callback, result);
 		}
 		
+		if(0 != userServiceImpl.getUsernameCount(username))
+		{
+			result.setErrorCode(6);
+			result.setErrorMsg("用户名已存在");
+			result.setResult(false);
+			return new JSONPObject(callback, result);
+		}
+		
 		UserInfo info = new UserInfo();
 		info.setBrandId(brandId);
 		info.setBusinessUnitId(businessUnitId);
@@ -97,7 +105,7 @@ public class UserController
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Object update(String callback,
+	public JSONPObject update(String callback,
 			Integer id,String username,String password,
 			Integer level,Integer brandId,
 			Integer businessUnitId,Integer storeId,
@@ -154,7 +162,7 @@ public class UserController
 	
 	@RequestMapping("/getStoreMsg")
 	@ResponseBody
-	public Object getStoreMsg(String callback,String cmdUserName,
+	public JSONPObject getStoreMsg(String callback,String cmdUserName,
 			String cmdPassword, String startTime,String endTime)
 	{
 		FormatResultBean result = new FormatResultBean();

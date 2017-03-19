@@ -113,4 +113,10 @@ public class UserServiceImpl implements UserService
 	{
 		return userInfoMapper.updateByPrimaryKey(userInfo) == 1;
 	}
+
+	@Override
+	public Integer getUsernameCount(String username)
+	{
+		return userInfoMapper.userGetUsernameCount(username);
+	}
 }

@@ -24,7 +24,7 @@ public class BrandController
 	
 	@RequestMapping("/create")
 	@ResponseBody
-	public Object createBrand(String callback,String brandName,
+	public JSONPObject createBrand(String callback,String brandName,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -54,7 +54,7 @@ public class BrandController
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Object deleteBrand(String callback,Integer brandId,
+	public JSONPObject deleteBrand(String callback,Integer brandId,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -82,7 +82,7 @@ public class BrandController
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Object updateBrand(String callback, Integer brandId, String brandName,
+	public JSONPObject updateBrand(String callback, Integer brandId, String brandName,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -113,7 +113,7 @@ public class BrandController
 	
 	@RequestMapping("/selectById")
 	@ResponseBody
-	public Object selectById(String callback, Integer brandId)
+	public JSONPObject selectById(String callback, Integer brandId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		BrandInfo info = brandInfoServiceImpl.selectBrand(brandId);
@@ -132,7 +132,7 @@ public class BrandController
 	
 	@RequestMapping("/selectByUserId")
 	@ResponseBody
-	public Object selectByUserId(String callback, Integer userId)
+	public JSONPObject selectByUserId(String callback, Integer userId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		BrandInfo info = brandInfoServiceImpl.selectBrandByUserId(userId);

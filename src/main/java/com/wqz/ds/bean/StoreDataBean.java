@@ -19,6 +19,7 @@ public class StoreDataBean
 	public String storeManAndWomanRate = "";
 	public Float bringBagRate = 0.0f;
 	public Float interStoreRate = 0.0f;
+	public Integer notInStoreCount = 0;
 	public int[] customerTotalTime = new int[13];//9-21
 	public int[] moneyTotalTime = new int[13];//9-21
 	
@@ -30,9 +31,17 @@ public class StoreDataBean
 	{
 		for(CameraPushMsg cameraInfo : camerasList)
 		{
-			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte)) continue;
+			if(cameraInfo.getIsEnterStore().equals(ByteBooleanUtils.falseByte))
+			{
+				notInStoreCount ++;
+				continue;
+			}
 			
-			customerTotalTime[cameraInfo.getDatetime().getHours() + 9] ++;//24小时客流统计
+			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte) || 
+					cameraInfo.getDatetime().getHours() - 9 < 0 || 
+	                  cameraInfo.getDatetime().getHours() - 9 >= customerTotalTime.length) continue;
+			
+			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24小时客流统计
 			
 			if(cameraInfo.getIsMale().equals(ByteBooleanUtils.trueByte))//男
 			{
@@ -84,6 +93,7 @@ public class StoreDataBean
 						
 				}
 			}
+			
 		}
 		
 		for(StoreBillsPushMsg bill : billsList)
@@ -110,9 +120,10 @@ public class StoreDataBean
 		
 		storeAllCount = storeManCount + storeWomanCount;
 		perBillCost = storeSalesMoney / payManCount;
-		storeManAndWomanRate = storeManCount / storeAllCount + ":" + storeWomanCount / storeAllCount;
+		storeManAndWomanRate = ((int)(storeManCount * 100.0)) / storeAllCount 
+				+ ":" + ((int)(storeWomanCount * 100.0)) / storeAllCount;
 		
 		bringBagRate = payManCount / (storeAllCount * 1.0f);
-		interStoreRate = storeAllCount / (camerasList.size() * 1.0f);
+		interStoreRate = (camerasList.size() - notInStoreCount) / (camerasList.size() * 1.0f);
 	}
 }

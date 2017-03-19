@@ -34,7 +34,7 @@ public class CameraController
 	
 	@RequestMapping("/push")
 	@ResponseBody
-	public Object pushMsg(String callback,Integer cameraId,
+	public JSONPObject pushMsg(String callback,Integer cameraId,
 			String datetime,Boolean isAdd,Integer age,
 			Boolean isMale,Boolean isEnterStore,
 			Integer storeId, String cmdUserName,String cmdPassword)
@@ -85,7 +85,7 @@ public class CameraController
 
 	@RequestMapping("/create")
 	@ResponseBody
-	public Object createCamera(String callback,String url,
+	public JSONPObject createCamera(String callback,String url,
 			Boolean isEnter,String area,String hotPointPath, 
 			String pathPath,Integer storeId,
 			String cmdUserName,String cmdPassword)
@@ -123,7 +123,7 @@ public class CameraController
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Object updateCamera(String callback,Integer cameraId,
+	public JSONPObject updateCamera(String callback,Integer cameraId,
 			String url,Boolean isEnter,String area,
 			String hotPointPath,String pathPath,Integer storeId,
 			String cmdUserName,String cmdPassword)
@@ -161,7 +161,7 @@ public class CameraController
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Object deleteCamera(String callback,Integer cameraId,
+	public JSONPObject deleteCamera(String callback,Integer cameraId,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -188,7 +188,7 @@ public class CameraController
 
 	@RequestMapping("/selectById")
 	@ResponseBody
-	public Object selectCameraById(String callback,Integer cameraId)
+	public JSONPObject selectCameraById(String callback,Integer cameraId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -208,7 +208,7 @@ public class CameraController
 	
 	@RequestMapping("/selectByStoreId")
 	@ResponseBody
-	public Object selectCameraByStoreId(String callback,Integer storeId)
+	public JSONPObject selectCameraByStoreId(String callback,Integer storeId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -228,7 +228,7 @@ public class CameraController
 	
 	@RequestMapping("/selectByBusinessUnitId")
 	@ResponseBody
-	public Object selectCameraByBusinessUnitId(String callback,Integer businessUnitId)
+	public JSONPObject selectCameraByBusinessUnitId(String callback,Integer businessUnitId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -248,7 +248,7 @@ public class CameraController
 	
 	@RequestMapping("/selectByBrandId")
 	@ResponseBody
-	public Object selectCameraByBrandId(String callback,Integer brandId)
+	public JSONPObject selectCameraByBrandId(String callback,Integer brandId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		

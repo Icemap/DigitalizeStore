@@ -33,17 +33,17 @@ public class StoreController
 	
 	@RequestMapping("/push")
 	@ResponseBody
-	public Object pushMsg(String callback, String datetime,
-			String boughtList,Integer boughtMoney,Integer storeId,
+	public JSONPObject pushMsg(String callback, String datetime,
+			String boughtList,Integer boughtMoney,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
-		if(cmdUser == null || cmdUser.getLevel() != 0)
+		if(cmdUser == null)
 		{
 			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result.setErrorMsg("无此用户");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -64,7 +64,7 @@ public class StoreController
 		
 		msg.setBoughtList(boughtList);
 		msg.setBoughtMoney(boughtMoney.toString());
-		msg.setStoreId(storeId);
+		msg.setStoreId(cmdUser.getStoreId());
 		
 		boolean r = storeBillsPushMsgServiceImpl.pushMsg(msg);
 		result.setResult(r);
@@ -79,7 +79,7 @@ public class StoreController
 
 	@RequestMapping("/create")
 	@ResponseBody
-	public Object createStore(String callback,
+	public JSONPObject createStore(String callback,
 			Integer businessUnitId,String name,
 			String cmdUserName,String cmdPassword)
 	{
@@ -112,7 +112,7 @@ public class StoreController
 
 	@RequestMapping("/update")
 	@ResponseBody
-	public Object updateStore(String callback,
+	public JSONPObject updateStore(String callback,
 			Integer id,Integer businessUnitId,String name,
 			String cmdUserName,String cmdPassword)
 	{
@@ -145,7 +145,7 @@ public class StoreController
 
 	@RequestMapping("/selectById")
 	@ResponseBody
-	public Object selectById(String callback,Integer storeId)
+	public JSONPObject selectById(String callback,Integer storeId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -165,7 +165,7 @@ public class StoreController
 	
 	@RequestMapping("/selectByBrandId")
 	@ResponseBody
-	public Object selectByBrandId(String callback,Integer brandId)
+	public JSONPObject selectByBrandId(String callback,Integer brandId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -185,7 +185,7 @@ public class StoreController
 	
 	@RequestMapping("/selectByBusinessUnitId")
 	@ResponseBody
-	public Object selectByBusinessUnitId(String callback,Integer businessUnitId)
+	public JSONPObject selectByBusinessUnitId(String callback,Integer businessUnitId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		

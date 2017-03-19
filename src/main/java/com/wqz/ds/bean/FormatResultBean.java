@@ -8,7 +8,9 @@ public class FormatResultBean
 	 * 3:无数据
 	 * 4:时间转换错误
 	 * 5:登录失败
+	 * 6:用户名重复
 	 */
+	
 	Integer errorCode = 0;
 	String errorMsg = "成功";
 	Object result = "";

@@ -28,6 +28,12 @@
     and password = #{password,jdbcType=VARCHAR}
   </select>
   
+  <select id="userGetUsernameCount" resultType="java.lang.Integer">
+    select count(*)
+    from user_info
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user_info
     where id = #{id,jdbcType=INTEGER}

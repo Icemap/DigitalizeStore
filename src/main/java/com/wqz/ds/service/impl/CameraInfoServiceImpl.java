@@ -3,11 +3,13 @@ package com.wqz.ds.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wqz.ds.dao.CameraInfoMapper;
 import com.wqz.ds.pojo.CameraInfo;
 import com.wqz.ds.service.CameraInfoService;
 
+@Service
 public class CameraInfoServiceImpl implements CameraInfoService
 {
 	@Autowired

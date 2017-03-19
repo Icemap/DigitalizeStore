@@ -24,7 +24,7 @@ public class BusinessUnitController
 	
 	@RequestMapping("/create")
 	@ResponseBody
-	public Object createBusinessUnit(String callback,String businessUnitName,
+	public JSONPObject createBusinessUnit(String callback,String businessUnitName,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -54,7 +54,7 @@ public class BusinessUnitController
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Object deleteBusinessUnit(String callback,Integer businessUnitId,
+	public JSONPObject deleteBusinessUnit(String callback,Integer businessUnitId,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -82,7 +82,7 @@ public class BusinessUnitController
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Object updateBusinessUnit(String callback,Integer businessUnitId,
+	public JSONPObject updateBusinessUnit(String callback,Integer businessUnitId,
 			String businessUnitName,String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -112,7 +112,7 @@ public class BusinessUnitController
 	
 	@RequestMapping("/selectById")
 	@ResponseBody
-	public Object selectBusinessUnitById(String callback,Integer businessUnitId,
+	public JSONPObject selectBusinessUnitById(String callback,Integer businessUnitId,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -131,7 +131,7 @@ public class BusinessUnitController
 	
 	@RequestMapping("/selectByUserId")
 	@ResponseBody
-	public Object selectBusinessUnitByUserId(String callback,Integer userId,
+	public JSONPObject selectBusinessUnitByUserId(String callback,Integer userId,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();

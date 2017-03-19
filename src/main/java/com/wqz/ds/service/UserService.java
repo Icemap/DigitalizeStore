@@ -10,6 +10,7 @@ public interface UserService
 	UserInfo userLogin(String username, String password);
 	boolean userRegister(UserInfo userInfo);
 	boolean userUpdate(UserInfo userInfo);
+	Integer getUsernameCount(String username);
 	
 	List<StoreDataBean> getStoreMsg(Integer userId, String startTime,String endTime);//得到单数
 }
