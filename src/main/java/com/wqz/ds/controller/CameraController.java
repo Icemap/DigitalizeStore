@@ -196,8 +196,8 @@ public class CameraController
 		if(r == null)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -216,8 +216,8 @@ public class CameraController
 		if(r == null || r.size() == 0)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -236,8 +236,8 @@ public class CameraController
 		if(r == null || r.size() == 0)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -256,8 +256,8 @@ public class CameraController
 		if(r == null || r.size() == 0)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		

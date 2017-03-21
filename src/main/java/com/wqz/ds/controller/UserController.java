@@ -39,7 +39,7 @@ public class UserController
 		return new JSONPObject(callback, result);
 	}
 	
-	@RequestMapping("/regist")
+	@RequestMapping("/register")
 	@ResponseBody
 	public JSONPObject regist(String callback,
 			String username,String password,
@@ -180,8 +180,8 @@ public class UserController
 		
 		if(r == null || r.isEmpty())
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}

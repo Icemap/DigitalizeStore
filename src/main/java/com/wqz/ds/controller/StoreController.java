@@ -40,10 +40,10 @@ public class StoreController
 		FormatResultBean result = new FormatResultBean();
 		
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
-		if(cmdUser == null)
+		if(cmdUser == null || cmdUser.getStoreId() == null)
 		{
 			result.setErrorCode(1);
-			result.setErrorMsg("无此用户");
+			result.setErrorMsg("无此用户或无门店ID");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -79,8 +79,7 @@ public class StoreController
 
 	@RequestMapping("/create")
 	@ResponseBody
-	public JSONPObject createStore(String callback,
-			Integer businessUnitId,String name,
+	public JSONPObject createStore(String callback,String name,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
@@ -96,7 +95,7 @@ public class StoreController
 		
 		StoreInfo info = new StoreInfo();
 		
-		info.setBusinessUnitId(businessUnitId);
+		info.setBusinessUnitId(cmdUser.getBusinessUnitId());
 		info.setName(name);
 		
 		boolean r = storeInfoServiceImpl.createStoreInfo(info);
@@ -113,13 +112,17 @@ public class StoreController
 	@RequestMapping("/update")
 	@ResponseBody
 	public JSONPObject updateStore(String callback,
-			Integer id,Integer businessUnitId,String name,
+			Integer id,String name,
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
-		if(cmdUser == null || cmdUser.getLevel() != 2)
+		StoreInfo storeInfo = storeInfoServiceImpl.getInfoById(id);
+		
+		if(cmdUser == null || 
+				cmdUser.getLevel() != 2 || 
+				storeInfo.getBusinessUnitId() != cmdUser.getBusinessUnitId())
 		{
 			result.setErrorCode(1);
 			result.setErrorMsg("用户权限不足");
@@ -129,7 +132,7 @@ public class StoreController
 		
 		StoreInfo info = new StoreInfo();
 		info.setId(id);
-		info.setBusinessUnitId(businessUnitId);
+		info.setBusinessUnitId(cmdUser.getBusinessUnitId());
 		info.setName(name);
 		
 		boolean r = storeInfoServiceImpl.updateStoreInfo(info);
@@ -154,8 +157,8 @@ public class StoreController
 		if(r == null)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -174,8 +177,8 @@ public class StoreController
 		if(r == null || r.size() == 0)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -194,8 +197,8 @@ public class StoreController
 		if(r == null || r.size() == 0)
 		{
 			result.setResult(false);
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		

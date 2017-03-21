@@ -132,8 +132,8 @@ public class VipController
 		VipInfo r = vipInfoServiceImpl.selectVipInfoById(id);
 		if(r == null)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -150,8 +150,8 @@ public class VipController
 		VipInfo r = vipInfoServiceImpl.selectVipInfoByPhone(phone);
 		if(r == null)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -168,8 +168,8 @@ public class VipController
 		List<VipInfo> r = vipInfoServiceImpl.selectVipInfoByBrandId(brandId);
 		if(r == null || r.isEmpty()) 
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -186,8 +186,8 @@ public class VipController
 		List<VipInfo> r = vipInfoServiceImpl.selectVipInfoByName(name);
 		if(r == null || r.isEmpty()) 
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -204,8 +204,8 @@ public class VipController
 		List<VipInfo> r = vipInfoServiceImpl.selectVipInfoByOtherLabel(otherLabel);
 		if(r == null || r.isEmpty()) 
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result.setErrorCode(3);
+			result.setErrorMsg("无数据");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
