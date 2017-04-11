@@ -34,8 +34,7 @@ public class VipController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -49,8 +48,7 @@ public class VipController
 		boolean r = vipInfoServiceImpl.createVipInfo(vipInfo);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -69,8 +67,7 @@ public class VipController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -85,8 +82,7 @@ public class VipController
 		boolean r = vipInfoServiceImpl.updateVipInfo(vipInfo);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -105,8 +101,7 @@ public class VipController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -114,8 +109,7 @@ public class VipController
 		boolean r = vipInfoServiceImpl.deleteVipInfo(vipId);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -132,8 +126,7 @@ public class VipController
 		VipInfo r = vipInfoServiceImpl.selectVipInfoById(id);
 		if(r == null)
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -150,8 +143,7 @@ public class VipController
 		VipInfo r = vipInfoServiceImpl.selectVipInfoByPhone(phone);
 		if(r == null)
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -168,8 +160,7 @@ public class VipController
 		List<VipInfo> r = vipInfoServiceImpl.selectVipInfoByBrandId(brandId);
 		if(r == null || r.isEmpty()) 
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -186,8 +177,7 @@ public class VipController
 		List<VipInfo> r = vipInfoServiceImpl.selectVipInfoByName(name);
 		if(r == null || r.isEmpty()) 
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -204,8 +194,7 @@ public class VipController
 		List<VipInfo> r = vipInfoServiceImpl.selectVipInfoByOtherLabel(otherLabel);
 		if(r == null || r.isEmpty()) 
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}

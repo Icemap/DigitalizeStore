@@ -29,8 +29,7 @@ public class UserController
 		UserInfo user = userServiceImpl.userLogin(username, password);
 		if(user == null)
 		{
-			result.setErrorCode(5);
-			result.setErrorMsg("ÎÞ´ËÓÃ»§");
+			result = FormatResultBean.LoginError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -48,28 +47,25 @@ public class UserController
 			String cmdUserName,String cmdPassword)
 	{
 		FormatResultBean result = new FormatResultBean();
-		
+	
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() >= level)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÓÃ»§È¨ÏÞ²»×ã,²»µÃ´´½¨Í¬È¨ÏÞ»ò¸ßÈ¨ÏÞÕËºÅ¡£");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
 		
 		if(level == 2 && cmdUser.getBrandId() != brandId)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÓÃ»§È¨ÏÞ²»×ã,²»µÃ´´½¨·Ç±¾Æ·ÅÆµÄÊÂÒµ²¿ÓÃ»§");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
 		
 		else if(level == 3 && cmdUser.getBusinessUnitId() != businessUnitId)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÓÃ»§È¨ÏÞ²»×ã,²»µÃ´´½¨·Ç±¾ÊÂÒµ²¿µÄÃÅµêÓÃ»§");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -77,7 +73,7 @@ public class UserController
 		if(0 != userServiceImpl.getUsernameCount(username))
 		{
 			result.setErrorCode(6);
-			result.setErrorMsg("ÓÃ»§ÃûÒÑ´æÔÚ");
+			result.setErrorMsg("é–»â‚¬åŠé©æ¶¢å´¥å®¥å‘­åš’éŽæ¶™Ãªå©€ï¿½");
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -93,12 +89,11 @@ public class UserController
 		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("Êý¾Ý¿â²Ù×÷´íÎó");
+			result = FormatResultBean.UsernameIsExist();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
-		
+	
 		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
@@ -116,24 +111,21 @@ public class UserController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() >= level)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÓÃ»§È¨ÏÞ²»×ã,²»µÃÐÞ¸ÄÍ¬È¨ÏÞ»ò¸ßÈ¨ÏÞÕËºÅ¡£");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
 		
 		if(level == 2 && cmdUser.getBrandId() != brandId)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÓÃ»§È¨ÏÞ²»×ã,²»µÃÐÞ¸Ä·Ç±¾Æ·ÅÆµÄÊÂÒµ²¿ÓÃ»§");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
 		
 		else if(level == 3 && cmdUser.getBusinessUnitId() != businessUnitId)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÓÃ»§È¨ÏÞ²»×ã,²»µÃÐÞ¸Ä·Ç±¾ÊÂÒµ²¿µÄÃÅµêÓÃ»§");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -150,8 +142,7 @@ public class UserController
 		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("Êý¾Ý¿â²Ù×÷´íÎó");
+			result = FormatResultBean.DatabaseError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -170,8 +161,7 @@ public class UserController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("ÎÞ´ËÓÃ»§");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -180,12 +170,11 @@ public class UserController
 		
 		if(r == null || r.isEmpty())
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("ÎÞÊý¾Ý");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
-		
+	
 		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}

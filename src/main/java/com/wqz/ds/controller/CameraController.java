@@ -44,8 +44,7 @@ public class CameraController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -58,8 +57,7 @@ public class CameraController
 		catch (ParseException e)
 		{
 			e.printStackTrace();
-			result.setErrorCode(4);
-			result.setErrorMsg("时间格式错误");
+			result = FormatResultBean.DataTransformError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -72,14 +70,13 @@ public class CameraController
 		msg.setStoreId(storeId);
 		
 		boolean r = cameraPushMsgServiceImpl.pushMsg(msg);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 			return new JSONPObject(callback, result);
 		}
-		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 
@@ -95,8 +92,7 @@ public class CameraController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -111,13 +107,12 @@ public class CameraController
 		info.setUrl(url);
 		
 		boolean r = cameraInfoServiceImpl.createCamera(info);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
-		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 
@@ -133,8 +128,7 @@ public class CameraController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -149,13 +143,12 @@ public class CameraController
 		info.setUrl(url);
 		
 		boolean r = cameraInfoServiceImpl.updateCamera(info);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
-		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 
@@ -169,20 +162,18 @@ public class CameraController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
 		
 		boolean r = cameraInfoServiceImpl.deleteCamera(cameraId);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
-		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 
@@ -195,9 +186,8 @@ public class CameraController
 		CameraInfo r = cameraInfoServiceImpl.getCameraInfoById(cameraId);
 		if(r == null)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -215,9 +205,8 @@ public class CameraController
 		List<CameraInfo> r = cameraInfoServiceImpl.getCameraInfoByStoreId(storeId);
 		if(r == null || r.size() == 0)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -235,9 +224,8 @@ public class CameraController
 		List<CameraInfo> r = cameraInfoServiceImpl.getCameraInfoByBusinessUnitId(businessUnitId);
 		if(r == null || r.size() == 0)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -255,9 +243,8 @@ public class CameraController
 		List<CameraInfo> r = cameraInfoServiceImpl.getCameraInfoByBrandId(brandId);
 		if(r == null || r.size() == 0)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		

@@ -31,8 +31,7 @@ public class BusinessUnitController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() > 1)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -42,13 +41,12 @@ public class BusinessUnitController
 		info.setName(businessUnitName);
 		
 		boolean r = businessUnitInfoServiceImpl.createBusinessUnit(info);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
-		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 
@@ -62,8 +60,7 @@ public class BusinessUnitController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() > 1)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -73,8 +70,7 @@ public class BusinessUnitController
 		result.setResult(r);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
 		
 		return new JSONPObject(callback, result);
@@ -89,8 +85,7 @@ public class BusinessUnitController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() > 1)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -99,12 +94,11 @@ public class BusinessUnitController
 		info.setId(businessUnitId);
 		info.setName(businessUnitName);
 		
-		boolean r = businessUnitInfoServiceImpl.createBusinessUnit(info);
+		boolean r = businessUnitInfoServiceImpl.updateBusinessUnit(info);
 		result.setResult(r);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
 		
 		return new JSONPObject(callback, result);
@@ -119,9 +113,8 @@ public class BusinessUnitController
 		BusinessUnitInfo r = businessUnitInfoServiceImpl.selectById(businessUnitId);
 		if(r == null)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -138,9 +131,8 @@ public class BusinessUnitController
 		BusinessUnitInfo r = businessUnitInfoServiceImpl.selectByUserId(userId);
 		if(r == null)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		

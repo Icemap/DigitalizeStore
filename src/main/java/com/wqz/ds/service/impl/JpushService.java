@@ -28,10 +28,10 @@ public class JpushService
 	@Autowired
 	VipInfoMapper vipInfoMapper;
 	
-	private static String APP_KEY = "95597b702ffcf6b12c843a9d";
-	private static String MASTER_SECRET = "f28ce57b1f281b7415344e54";
+	private static String APP_KEY = "dfd42e392d9e081d68c0cc9d";
+	private static String MASTER_SECRET = "a032bdb0b1375246349c54df";
 	
-	private PushPayload getPushInfo(Integer vipId,String storeId) 
+	private PushPayload getPushInfo(Integer vipId, String storeId, String alert, String title) 
 	{
 		VipInfo vipInfo = vipInfoMapper.selectByPrimaryKey(vipId);
 		
@@ -45,10 +45,10 @@ public class JpushService
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias(storeId))
                 .setNotification(Notification.newBuilder()
-                .setAlert("")
+                .setAlert(alert)
                         .addPlatformNotification(AndroidNotification.newBuilder()
     	                        .setBuilderId(1)
-    	                        .setTitle("店内来了一位熟客")
+    	                        .setTitle(title)
                                 .addExtras(extra)
     	                        .build())
                         .build())
@@ -58,13 +58,13 @@ public class JpushService
                  .build();
     }
 	
-	public void doActionPush(Integer vipId,String storeId)
+	public void doActionPush(Integer vipId, String storeId, String alert, String title)
 	{
 		JPushClient jpushClient = new JPushClient(
 				MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());
 
 		// For push, all you need do is to build PushPayload object.
-		PushPayload payload = getPushInfo(vipId, storeId);
+		PushPayload payload = getPushInfo(vipId, storeId, alert, title);
 		System.out.println(new Gson().toJson(payload));
 
 		try

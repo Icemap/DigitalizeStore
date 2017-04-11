@@ -32,8 +32,7 @@ public class BrandController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser != null && cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -42,13 +41,13 @@ public class BrandController
 		info.setName(brandName);
 		
 		boolean r = brandInfoServiceImpl.createBrand(info);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
 		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 
@@ -62,20 +61,18 @@ public class BrandController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser != null && cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
 		
 		boolean r = brandInfoServiceImpl.deleteBrand(brandId);
 		
-		result.setResult(r);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
+		result.setResult(r);
 		
 		return new JSONPObject(callback, result);
 	}
@@ -90,8 +87,7 @@ public class BrandController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser != null && cmdUser.getLevel() != 0)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -101,13 +97,12 @@ public class BrandController
 		info.setId(brandId);
 		
 		boolean r = brandInfoServiceImpl.updateBrand(info);
-		result.setResult(r);
+		
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
-		
+		result.setResult(r);
 		return new JSONPObject(callback, result);
 	}
 	
@@ -120,8 +115,7 @@ public class BrandController
 		
 		if(info == null)
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -139,8 +133,7 @@ public class BrandController
 		
 		if(info == null)
 		{
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}

@@ -42,8 +42,7 @@ public class StoreController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getStoreId() == null)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("无此用户或无门店ID");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -56,8 +55,7 @@ public class StoreController
 		catch (ParseException e)
 		{
 			e.printStackTrace();
-			result.setErrorCode(4);
-			result.setErrorMsg("时间格式错误");
+			result = FormatResultBean.DatabaseError();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -67,16 +65,32 @@ public class StoreController
 		msg.setStoreId(cmdUser.getStoreId());
 		
 		boolean r = storeBillsPushMsgServiceImpl.pushMsg(msg);
-		result.setResult(r);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
+		result.setResult(r);
 		
 		return new JSONPObject(callback, result);
 	}
-
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public JSONPObject delete(String callback,Integer storeId)
+	{
+		FormatResultBean result = new FormatResultBean();
+		
+		Boolean r = storeInfoServiceImpl.deleteStoreInfo(storeId);
+		
+		if(!r)
+		{
+			result = FormatResultBean.DatabaseError();
+		}
+		
+		result.setResult(r);
+		return new JSONPObject(callback, result);
+	}
+	
 	@RequestMapping("/create")
 	@ResponseBody
 	public JSONPObject createStore(String callback,String name,
@@ -87,8 +101,7 @@ public class StoreController
 		UserInfo cmdUser = userServiceImpl.userLogin(cmdUserName, cmdPassword);
 		if(cmdUser == null || cmdUser.getLevel() != 2)
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -99,12 +112,11 @@ public class StoreController
 		info.setName(name);
 		
 		boolean r = storeInfoServiceImpl.createStoreInfo(info);
-		result.setResult(r);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
+		result.setResult(r);
 		
 		return new JSONPObject(callback, result);
 	}
@@ -124,8 +136,7 @@ public class StoreController
 				cmdUser.getLevel() != 2 || 
 				storeInfo.getBusinessUnitId() != cmdUser.getBusinessUnitId())
 		{
-			result.setErrorCode(1);
-			result.setErrorMsg("用户权限不足");
+			result = FormatResultBean.PermissionDenied();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}
@@ -136,12 +147,11 @@ public class StoreController
 		info.setName(name);
 		
 		boolean r = storeInfoServiceImpl.updateStoreInfo(info);
-		result.setResult(r);
 		if(!r)
 		{
-			result.setErrorCode(2);
-			result.setErrorMsg("数据库操作错误");
+			result = FormatResultBean.DatabaseError();
 		}
+		result.setResult(r);
 		
 		return new JSONPObject(callback, result);
 	}
@@ -156,9 +166,8 @@ public class StoreController
 		
 		if(r == null)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -176,9 +185,8 @@ public class StoreController
 		
 		if(r == null || r.size() == 0)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
@@ -196,9 +204,8 @@ public class StoreController
 		
 		if(r == null || r.size() == 0)
 		{
+			result = FormatResultBean.DataIsEmpty();
 			result.setResult(false);
-			result.setErrorCode(3);
-			result.setErrorMsg("无数据");
 			return new JSONPObject(callback, result);
 		}
 		
