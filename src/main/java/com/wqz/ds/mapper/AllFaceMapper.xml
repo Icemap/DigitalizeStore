@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wqz.ds.dao.AllFaceMapper" >
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.AllFace" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cameraId" property="cameraid" jdbcType="INTEGER" />
+    <result column="picUrl" property="picurl" jdbcType="VARCHAR" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cameraId, picUrl, datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from all_face
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from all_face
+    limit #{start}, #{size}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from all_face
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wqz.ds.pojo.AllFace" >
+    insert into all_face (id, cameraId, picUrl, 
+      datetime)
+    values (#{id,jdbcType=INTEGER}, #{cameraid,jdbcType=INTEGER}, #{picurl,jdbcType=VARCHAR}, 
+      #{datetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wqz.ds.pojo.AllFace" >
+    insert into all_face
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cameraid != null" >
+        cameraId,
+      </if>
+      <if test="picurl != null" >
+        picUrl,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cameraid != null" >
+        #{cameraid,jdbcType=INTEGER},
+      </if>
+      <if test="picurl != null" >
+        #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wqz.ds.pojo.AllFace" >
+    update all_face
+    <set >
+      <if test="cameraid != null" >
+        cameraId = #{cameraid,jdbcType=INTEGER},
+      </if>
+      <if test="picurl != null" >
+        picUrl = #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wqz.ds.pojo.AllFace" >
+    update all_face
+    set cameraId = #{cameraid,jdbcType=INTEGER},
+      picUrl = #{picurl,jdbcType=VARCHAR},
+      datetime = #{datetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

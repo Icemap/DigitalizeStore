@@ -19,6 +19,14 @@
     from vip_push_msg
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectByVipId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from vip_push_msg
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from vip_push_msg
     where id = #{id,jdbcType=INTEGER}

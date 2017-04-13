@@ -11,7 +11,7 @@ import com.wqz.ds.service.impl.JpushService;
 @Controller
 @RequestMapping("/jpush")
 public class JPushController
-{
+{ 
 	@Autowired
 	JpushService jpushService;
 	
@@ -19,7 +19,15 @@ public class JPushController
 	@ResponseBody
 	public JSONPObject push(Integer vipId, String storeId, String alert, String title,String callback)
 	{
-		jpushService.doActionPush(vipId, storeId, alert, title);
-		return new JSONPObject(callback, true);
+		Object result = jpushService.doActionPush(vipId, storeId, alert, title);
+		return new JSONPObject(callback, result);
+	}
+
+	@RequestMapping("/demo/push")
+	@ResponseBody
+	public JSONPObject demoPush(String alert, String title, String msg, String surplus,String picUrl,String tag,String callback)
+	{
+		Object result = jpushService.doBottleActionPush(alert, title, msg, surplus, picUrl, tag);
+		return new JSONPObject(callback, result);
 	}
 }

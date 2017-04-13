@@ -1,0 +1,6 @@
+{
+        "vipSavePath":"/home/service/apache-tomcat-ds/webapps/ROOT/vip/",
+        "allSavePath":"/home/service/apache-tomcat-ds/webapps/ROOT/all/",
+        "vipGetPath":"http://121.201.110.207/vip/",
+        "allGetPath":"http://121.201.110.207/all/"
+}
