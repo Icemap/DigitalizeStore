@@ -3,6 +3,7 @@ package com.wqz.ds.service.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.wqz.ds.bean.StoreDataBean;
 import com.wqz.ds.dao.CameraPushMsgMapper;
 import com.wqz.ds.dao.StoreBillsPushMsgMapper;
+import com.wqz.ds.dao.StoreInfoMapper;
 import com.wqz.ds.dao.UserInfoMapper;
 import com.wqz.ds.pojo.CameraPushMsg;
 import com.wqz.ds.pojo.StoreBillsPushMsg;
@@ -28,6 +30,9 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	CameraPushMsgMapper cameraPushMsgMapper;
 	
+	@Autowired
+	StoreInfoMapper storeInfoMapper;
+	
 	@Override
 	public UserInfo userLogin(String username, String password)
 	{
@@ -43,7 +48,7 @@ public class UserServiceImpl implements UserService
 	@Override
 	public List<StoreDataBean> getStoreMsg(Integer userId, String startTime, String endTime)
 	{
-		//1.²é³öµêÄÚµÄ½áÕËºÍÈËÁ÷ÐÅÏ¢
+		//1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		List<StoreBillsPushMsg> billsList = null;
 		List<CameraPushMsg> camerasList = null;
 		UserInfo info = userInfoMapper.selectByPrimaryKey(userId);
@@ -64,10 +69,11 @@ public class UserServiceImpl implements UserService
 		}
 		
 		
-		//2.·ÖÀëÃ¿¸öµêµÄÐÅÏ¢
-		HashMap<Integer, List<StoreBillsPushMsg>> billsMap = new HashMap<>();
-		HashMap<Integer, List<CameraPushMsg>> camerasMap = new HashMap<>();
+		//2.ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+		Map<Integer, List<StoreBillsPushMsg>> billsMap = new HashMap<>();
+		Map<Integer, List<CameraPushMsg>> camerasMap = new HashMap<>();
 		List<Integer> storeIdList = new ArrayList<Integer>();
+		Map<Integer, String> storeNameMap = new HashMap<>();
 		
 		for(StoreBillsPushMsg bill : billsList)
 		{
@@ -81,6 +87,7 @@ public class UserServiceImpl implements UserService
 				bills.add(bill);
 				billsMap.put(bill.getStoreId(), bills);
 				storeIdList.add(bill.getStoreId());
+				storeNameMap.put(bill.getStoreId(),storeInfoMapper.getStoreName(bill.getStoreId()));
 			}
 		}
 		
@@ -98,11 +105,11 @@ public class UserServiceImpl implements UserService
 			}
 		}
 		
-		//¸ù¾ÝÃ¿¸öµêµÄÐÅÏ¢£¬·Ö±ð×é×°³ö½á¹ûÊý¾Ý
+		//ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<StoreDataBean> storeList = new ArrayList<>();
 		for(Integer storeId : storeIdList)
 		{
-			storeList.add(new StoreDataBean(billsMap.get(storeId), camerasMap.get(storeId)));
+			storeList.add(new StoreDataBean(storeNameMap.get(storeId),billsMap.get(storeId), camerasMap.get(storeId)));
 		}
 		
 		return storeList;

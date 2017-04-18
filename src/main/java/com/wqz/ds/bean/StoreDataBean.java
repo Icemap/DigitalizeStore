@@ -8,7 +8,8 @@ import com.wqz.ds.utils.ByteBooleanUtils;
 
 public class StoreDataBean
 {
-	public Float hasMsgManCount = 0f;//°Ù·Ö±È
+	public String storeName = "";
+	public Float hasMsgManCount = 0f;//ï¿½Ù·Ö±ï¿½
 	
 	public Integer storeAllCount = 0;
 	public Integer storeManCount = 0;
@@ -22,28 +23,35 @@ public class StoreDataBean
 	public Integer notInStoreCount = 0;
 	public int[] customerTotalTime = new int[13];//9-21
 	public int[] moneyTotalTime = new int[13];//9-21
+	public int[] dealsCountTotalTime = new int[13];//9-21
+	public int[] notInStoreTotalTime = new int[13];//9-21
+	public Float[] interStoreRateTotalTime = new Float[13];//9-21
+	public Float[] bringBagRateTotalTime = new Float[13];//9-21
 	
-	/*60ËêÒÔÉÏ   51-60Ëê   41-50Ëê   31-40Ëê   21-30Ëê   20ËêÒÔÏÂ*/
+	/*60ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   51-60ï¿½ï¿½   41-50ï¿½ï¿½   31-40ï¿½ï¿½   21-30ï¿½ï¿½   20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	public int[] manAgeArray = new int[6];
 	public int[] womanAgeArray = new int[6];
 	
-	public StoreDataBean(List<StoreBillsPushMsg> billsList,List<CameraPushMsg> camerasList)
+	public StoreDataBean(String storeName,List<StoreBillsPushMsg> billsList,List<CameraPushMsg> camerasList)
 	{
+		this.storeName = storeName;
+		
 		for(CameraPushMsg cameraInfo : camerasList)
 		{
+			if(cameraInfo.getDatetime().getHours() - 9 < 0 || 
+	                  cameraInfo.getDatetime().getHours() - 9 >= customerTotalTime.length) continue;
+			
 			if(cameraInfo.getIsEnterStore().equals(ByteBooleanUtils.falseByte))
 			{
-				notInStoreCount ++;
+				notInStoreTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;
 				continue;
 			}
 			
-			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte) || 
-					cameraInfo.getDatetime().getHours() - 9 < 0 || 
-	                  cameraInfo.getDatetime().getHours() - 9 >= customerTotalTime.length) continue;
+			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte)) continue;
 			
-			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24Ð¡Ê±¿ÍÁ÷Í³¼Æ
+			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24Ð¡Ê±ï¿½ï¿½ï¿½ï¿½Í³ï¿½ï¿½
 			
-			if(cameraInfo.getIsMale().equals(ByteBooleanUtils.trueByte))//ÄÐ
+			if(cameraInfo.getIsMale().equals(ByteBooleanUtils.trueByte))//ï¿½ï¿½
 			{
 				switch(cameraInfo.getAge())
 				{
@@ -103,7 +111,7 @@ public class StoreDataBean
 			{
 				moneyTotalTime[bill.getDatetime().getHours() - 9] += 
 					Math.round(Float.parseFloat(bill.getBoughtMoney()));
-				payManCount ++;
+				dealsCountTotalTime[bill.getDatetime().getHours() - 9] ++;
 			}
 		}
 		
@@ -113,9 +121,21 @@ public class StoreDataBean
 			storeWomanCount += womanAgeArray[i];
 		}
 		
-		for(int i = 0;i < moneyTotalTime.length;i++)
+		for(int i = 0;i < moneyTotalTime.length;i++)//13
 		{
 			storeSalesMoney += moneyTotalTime[i];
+			payManCount += dealsCountTotalTime[i];
+			notInStoreCount += notInStoreTotalTime[i];
+			if(customerTotalTime[i] == 0)
+			{
+				interStoreRateTotalTime[i] = 0.0f;
+				bringBagRateTotalTime[i] = 0.0f;
+			}
+			else
+			{
+				interStoreRateTotalTime[i] = notInStoreTotalTime[i] / (customerTotalTime[i] + notInStoreTotalTime[i] * 1.0f);
+				bringBagRateTotalTime[i] = dealsCountTotalTime[i] / (customerTotalTime[i] * 1.0f);
+			}
 		}
 		
 		storeAllCount = storeManCount + storeWomanCount;

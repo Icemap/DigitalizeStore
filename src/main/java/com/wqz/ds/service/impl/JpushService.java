@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.wqz.ds.controller.JPushController;
+import com.wqz.ds.dao.AllFaceMapper;
 import com.wqz.ds.dao.VipInfoMapper;
 import com.wqz.ds.dao.VipPushMsgMapper;
+import com.wqz.ds.pojo.AllFace;
 import com.wqz.ds.pojo.VipInfo;
 import com.wqz.ds.pojo.VipPushMsg;
+import com.wqz.ds.utils.DateTimeUtils;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
@@ -36,12 +39,15 @@ public class JpushService
 	@Autowired
 	VipPushMsgMapper vipPushMsgMapper;
 	
+	@Autowired
+	AllFaceMapper allFaceMapper;
+	
 	Logger log = Logger.getLogger(JPushController.class);
 	
 	private static String APP_KEY = "2936fe5db1a138eb4bef314a";
 	private static String MASTER_SECRET = "7f51133320b18cde7ab0c7ff";
 	
-	private PushPayload getPushInfo(Integer vipId, String storeId, String alert, String title) 
+	private PushPayload getVipPushInfo(Integer vipId, String storeId, String alert, String title,String mode) 
 	{
 		VipInfo vipInfo = vipInfoMapper.selectByPrimaryKey(vipId);
 		List<VipPushMsg> msg = vipPushMsgMapper.selectByVipId(vipId);
@@ -52,6 +58,34 @@ public class JpushService
 		extra.put("phone", vipInfo.getPhone());
 		extra.put("otherLabel", vipInfo.getOtherLabel());
 		extra.put("bought", new Gson().toJson(msg));
+		extra.put("mode", mode);
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.tag(storeId))
+                .setNotification(Notification.newBuilder()
+                .setAlert(alert)
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+    	                        .setBuilderId(1)
+    	                        .setTitle(title)
+                                .addExtras(extra)
+    	                        .build())
+                        .build())
+                 .setOptions(Options.newBuilder()
+                         .setApnsProduction(true)
+                         .build())
+                 .build();
+    }
+	
+	private PushPayload getPushFaceInfo(Integer faceId, String storeId, String alert, String title, String mode) 
+	{
+		AllFace allFace = allFaceMapper.selectByPrimaryKey(faceId);
+		
+		Map<String,String> extra = new HashMap<>();
+		extra.put("id", allFace.getId() + "");
+		extra.put("camera_id", allFace.getCameraid() + "");
+		extra.put("pic", allFace.getPicurl());
+		extra.put("datetime", DateTimeUtils.date2Str(allFace.getDatetime()));
+		extra.put("mode", mode);
 		
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
@@ -70,13 +104,22 @@ public class JpushService
                  .build();
     }
 	
-	public Object doActionPush(Integer vipId, String storeId, String alert, String title)
+	public Object doActionPush(Integer id, String storeId, String alert, String title, String mode)
 	{
 		PushResult result = new PushResult();
 		JPushClient jpushClient = new JPushClient(
 				MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());
 		
-		PushPayload payload = getPushInfo(vipId, storeId, alert, title);
+		PushPayload payload = null;
+		if(mode.equals("vip"))
+		{
+			payload = getVipPushInfo(id, storeId, alert, title, mode);
+		}
+		else if(mode.equals("face"))
+		{
+			payload = getPushFaceInfo(id, storeId, alert, title, mode);
+		}
+		
 		log.debug(new Gson().toJson(payload));
 		try
 		{

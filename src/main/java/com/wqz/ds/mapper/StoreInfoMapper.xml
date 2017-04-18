@@ -28,6 +28,13 @@
     from store_info
     where business_unit_id = #{businessUnitId,jdbcType=INTEGER}
   </select>
+  
+  <select id="getStoreName" resultType="java.lang.String" parameterType="java.lang.Integer" >
+    select name
+    from store_info
+    where id = #{storeId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from store_info
     where id = #{id,jdbcType=INTEGER}

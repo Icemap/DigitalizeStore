@@ -9,4 +9,5 @@ public interface AllFaceService
 	Boolean insert(AllFace allFace);
 	Boolean delete(Integer id);
 	List<AllFace> select(Integer start,Integer size);
+	AllFace selectById(Integer faceId);
 }

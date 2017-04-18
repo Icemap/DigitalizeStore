@@ -259,4 +259,11 @@ public class VipController
 		
 		return new JSONPObject(callback, result);
 	}
+	
+	@RequestMapping("/selectAll")
+	@ResponseBody
+	public Object selectAll(Integer start,Integer size)
+	{
+		return vipInfoServiceImpl.selectAll(start, size);
+	}
 }

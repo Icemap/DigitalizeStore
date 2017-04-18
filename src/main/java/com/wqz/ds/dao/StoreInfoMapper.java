@@ -22,4 +22,6 @@ public interface StoreInfoMapper {
     
     List<StoreInfo> selectByBrandId(Integer brandId);
     List<StoreInfo> selectByBusinessUnitId(Integer businessUnitId);
+    
+    String getStoreName(Integer storeId);
 }

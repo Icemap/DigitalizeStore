@@ -32,4 +32,10 @@ public class AllFaceServiceImpl implements AllFaceService
 	{
 		return allFaceMapper.selectPage(start, size);
 	}
+	
+	@Override
+	public AllFace selectById(Integer faceId)
+	{
+		return allFaceMapper.selectByPrimaryKey(faceId);
+	}
 }

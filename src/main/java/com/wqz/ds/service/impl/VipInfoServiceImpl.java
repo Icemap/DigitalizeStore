@@ -63,4 +63,9 @@ public class VipInfoServiceImpl implements VipInfoService
 		return vipInfoMapper.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public List<VipInfo> selectAll(Integer start,Integer size)
+	{
+		return vipInfoMapper.selectAll(start, size);
+	}
 }

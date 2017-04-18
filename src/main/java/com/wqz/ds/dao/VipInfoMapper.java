@@ -2,6 +2,7 @@ package com.wqz.ds.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import com.wqz.ds.pojo.VipInfo;
@@ -24,4 +25,7 @@ public interface VipInfoMapper {
     List<VipInfo> selectByName(String name);
     VipInfo selectVipInfoByPhone(String phone);
     List<VipInfo> selectVipInfoByOtherLabel(String otherLabel);
+	List<VipInfo> selectAll(
+			@Param(value="start")Integer start,
+			@Param(value="size")Integer size);
 }

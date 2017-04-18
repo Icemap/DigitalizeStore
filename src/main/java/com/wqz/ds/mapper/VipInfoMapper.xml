@@ -32,6 +32,12 @@
     where name = #{name,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from vip_info
+    limit  #{start}, #{size}
+  </select>
+  
   <select id="selectVipInfoByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select *
     from vip_info

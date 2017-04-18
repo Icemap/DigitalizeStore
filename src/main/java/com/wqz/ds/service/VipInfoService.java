@@ -15,4 +15,5 @@ public interface VipInfoService
 	VipInfo selectVipInfoByPhone(String phone);
 	List<VipInfo> selectVipInfoByOtherLabel(String otherLabel);
 	VipInfo selectVipInfoById(Integer id);
+	List<VipInfo> selectAll(Integer start,Integer size);
 }
