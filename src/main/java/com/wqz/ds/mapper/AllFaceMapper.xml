@@ -28,12 +28,14 @@
     delete from all_face
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wqz.ds.pojo.AllFace" >
-    insert into all_face (id, cameraId, picUrl, 
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wqz.ds.pojo.AllFace" >
+    insert into all_face (cameraId, picUrl, 
       datetime)
-    values (#{id,jdbcType=INTEGER}, #{cameraid,jdbcType=INTEGER}, #{picurl,jdbcType=VARCHAR}, 
+    values (#{cameraid,jdbcType=INTEGER}, #{picurl,jdbcType=VARCHAR}, 
       #{datetime,jdbcType=TIMESTAMP})
   </insert>
+  
   <insert id="insertSelective" parameterType="com.wqz.ds.pojo.AllFace" >
     insert into all_face
     <trim prefix="(" suffix=")" suffixOverrides="," >

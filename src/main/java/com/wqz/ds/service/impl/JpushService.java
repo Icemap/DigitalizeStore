@@ -44,6 +44,9 @@ public class JpushService
 	
 	Logger log = Logger.getLogger(JPushController.class);
 	
+	private String lastMode = "";
+	private int lastId = -1;
+	
 	private static String APP_KEY = "2936fe5db1a138eb4bef314a";
 	private static String MASTER_SECRET = "7f51133320b18cde7ab0c7ff";
 	
@@ -106,6 +109,9 @@ public class JpushService
 	
 	public Object doActionPush(Integer id, String storeId, String alert, String title, String mode)
 	{
+		if(id.equals(lastId) && mode.equals(lastMode))
+			return false;
+		
 		PushResult result = new PushResult();
 		JPushClient jpushClient = new JPushClient(
 				MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());

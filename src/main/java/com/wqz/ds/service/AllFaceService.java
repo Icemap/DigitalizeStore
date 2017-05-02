@@ -6,7 +6,7 @@ import com.wqz.ds.pojo.AllFace;
 
 public interface AllFaceService
 {
-	Boolean insert(AllFace allFace);
+	Integer insert(AllFace allFace);
 	Boolean delete(Integer id);
 	List<AllFace> select(Integer start,Integer size);
 	AllFace selectById(Integer faceId);

@@ -16,9 +16,10 @@ public class AllFaceServiceImpl implements AllFaceService
 	AllFaceMapper allFaceMapper;
 	
 	@Override
-	public Boolean insert(AllFace allFace)
+	public Integer insert(AllFace allFace)
 	{
-		return allFaceMapper.insertSelective(allFace) == 1;
+		allFaceMapper.insert(allFace);
+		return allFace.getId();
 	}
 
 	@Override
