@@ -12,5 +12,5 @@ public interface UserService
 	boolean userUpdate(UserInfo userInfo);
 	Integer getUsernameCount(String username);
 	
-	List<StoreDataBean> getStoreMsg(Integer userId, String startTime,String endTime);//得到单数
+	List<StoreDataBean> getStoreMsg(Integer userId, String startTime,String endTime);//寰楀埌鍗曟暟
 }

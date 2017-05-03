@@ -9,7 +9,7 @@ import com.wqz.ds.utils.ByteBooleanUtils;
 public class StoreDataBean
 {
 	public String storeName = "";
-	public Float hasMsgManCount = 0f;//�ٷֱ�
+	public Float hasMsgManCount = 0f;
 	
 	public Integer storeAllCount = 0;
 	public Integer storeManCount = 0;
@@ -28,7 +28,7 @@ public class StoreDataBean
 	public Float[] interStoreRateTotalTime = new Float[13];//9-21
 	public Float[] bringBagRateTotalTime = new Float[13];//9-21
 	
-	/*60������   51-60��   41-50��   31-40��   21-30��   20������*/
+	/*60以上  51-60岁  41-50岁  31-40岁   21-30岁   20以下*/
 	public int[] manAgeArray = new int[6];
 	public int[] womanAgeArray = new int[6];
 	
@@ -49,59 +49,38 @@ public class StoreDataBean
 			
 			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte)) continue;
 			
-			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24Сʱ����ͳ��
+			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24小时
 			
-			if(cameraInfo.getIsMale().equals(ByteBooleanUtils.trueByte))//��
+			if(cameraInfo.getIsMale().equals(ByteBooleanUtils.trueByte))
 			{
-				switch(cameraInfo.getAge())
-				{
-					case 0:
-						manAgeArray[0] ++;
-						break;
-					case 20:
-						manAgeArray[1] ++;
-						break;
-					case 30:
-						manAgeArray[2] ++;
-						break;
-					case 40:
-						manAgeArray[3] ++;
-						break;
-					case 50:
-						manAgeArray[4] ++;
-						break;
-					case 60:
-						manAgeArray[5] ++;
-						break;
-						
-				}
+				if(cameraInfo.getAge() > 0 && cameraInfo.getAge() <= 20)
+					manAgeArray[0] ++;
+				else if(cameraInfo.getAge() > 20 && cameraInfo.getAge() <= 30)
+					manAgeArray[1] ++;
+				else if(cameraInfo.getAge() > 30 && cameraInfo.getAge() <= 40)
+					manAgeArray[2] ++;
+				else if(cameraInfo.getAge() > 40 && cameraInfo.getAge() <= 50)
+					manAgeArray[3] ++;
+				else if(cameraInfo.getAge() > 50 && cameraInfo.getAge() <= 60)
+					manAgeArray[4] ++;
+				else if(cameraInfo.getAge() > 60)
+					manAgeArray[5] ++;
 			}
-			else//Ů
+			else//女
 			{
-				switch(cameraInfo.getAge())
-				{
-					case 0:
-						womanAgeArray[0] ++;
-						break;
-					case 20:
-						womanAgeArray[1] ++;
-						break;
-					case 30:
-						womanAgeArray[2] ++;
-						break;
-					case 40:
-						womanAgeArray[3] ++;
-						break;
-					case 50:
-						womanAgeArray[4] ++;
-						break;
-					case 60:
-						womanAgeArray[5] ++;
-						break;
-						
-				}
+				if(cameraInfo.getAge() > 0 && cameraInfo.getAge() <= 20)
+					womanAgeArray[0] ++;
+				else if(cameraInfo.getAge() > 20 && cameraInfo.getAge() <= 30)
+					womanAgeArray[1] ++;
+				else if(cameraInfo.getAge() > 30 && cameraInfo.getAge() <= 40)
+					womanAgeArray[2] ++;
+				else if(cameraInfo.getAge() > 40 && cameraInfo.getAge() <= 50)
+					womanAgeArray[3] ++;
+				else if(cameraInfo.getAge() > 50 && cameraInfo.getAge() <= 60)
+					womanAgeArray[4] ++;
+				else if(cameraInfo.getAge() > 60)
+					womanAgeArray[5] ++;
 			}
-			
 		}
 		
 		for(StoreBillsPushMsg bill : billsList)
@@ -139,7 +118,7 @@ public class StoreDataBean
 		}
 		
 		storeAllCount = storeManCount + storeWomanCount;
-		perBillCost = storeSalesMoney / payManCount;
+		perBillCost = payManCount == 0 ? 0 : storeSalesMoney / payManCount;
 		storeManAndWomanRate = ((int)(storeManCount * 100.0)) / storeAllCount 
 				+ ":" + ((int)(storeWomanCount * 100.0)) / storeAllCount;
 		

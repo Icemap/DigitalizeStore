@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService
 	@Override
 	public List<StoreDataBean> getStoreMsg(Integer userId, String startTime, String endTime)
 	{
-		//1.������ڵĽ��˺�������Ϣ
 		List<StoreBillsPushMsg> billsList = null;
 		List<CameraPushMsg> camerasList = null;
 		UserInfo info = userInfoMapper.selectByPrimaryKey(userId);
@@ -69,7 +68,6 @@ public class UserServiceImpl implements UserService
 		}
 		
 		
-		//2.����ÿ�������Ϣ
 		Map<Integer, List<StoreBillsPushMsg>> billsMap = new HashMap<>();
 		Map<Integer, List<CameraPushMsg>> camerasMap = new HashMap<>();
 		List<Integer> storeIdList = new ArrayList<Integer>();
@@ -91,6 +89,8 @@ public class UserServiceImpl implements UserService
 			}
 		}
 		
+		Boolean cameraToCountStoreId = storeIdList.isEmpty() ? true : false;
+		
 		for(CameraPushMsg camera : camerasList)
 		{
 			if(camerasMap.containsKey(camera.getStoreId()))
@@ -102,14 +102,25 @@ public class UserServiceImpl implements UserService
 				List<CameraPushMsg> cameras = new ArrayList<>();
 				cameras.add(camera);
 				camerasMap.put(camera.getStoreId(), cameras);
+				if(cameraToCountStoreId) 
+				{
+					storeIdList.add(camera.getStoreId());
+					storeNameMap.put(camera.getStoreId(),storeInfoMapper.getStoreName(camera.getStoreId()));
+				}
 			}
 		}
 		
-		//���ÿ�������Ϣ���ֱ���װ��������
 		List<StoreDataBean> storeList = new ArrayList<>();
 		for(Integer storeId : storeIdList)
 		{
-			storeList.add(new StoreDataBean(storeNameMap.get(storeId),billsMap.get(storeId), camerasMap.get(storeId)));
+			List<StoreBillsPushMsg> billsMsg = new ArrayList<>();
+			List<CameraPushMsg> cameraMsg = new ArrayList<>();
+			
+			if(!storeNameMap.containsKey(storeId))continue;
+			if(billsMap.containsKey(storeId)) billsMsg = billsMap.get(storeId);
+			if(camerasMap.containsKey(storeId)) cameraMsg = camerasMap.get(storeId);
+			
+			storeList.add(new StoreDataBean(storeNameMap.get(storeId), billsMsg, cameraMsg));
 		}
 		
 		return storeList;

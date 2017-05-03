@@ -22,7 +22,7 @@ public class FileUtils
 		{
 			reader = new BufferedReader(new FileReader(file));
 			String tempString = null;
-			// 一次读入一行，直到读入null为文件结束
+			// 涓�娆¤鍏ヤ竴琛岋紝鐩村埌璇诲叆null涓烘枃浠剁粨鏉�
 			while ((tempString = reader.readLine()) != null)
 			{
 				String[] tempArray = tempString.split(",");
@@ -134,7 +134,7 @@ public class FileUtils
             }
             
             os = new FileOutputStream(path + "/" + fileName);
-            // 开始读取
+            // 寮�濮嬭鍙�
             while ((len = inputStream.read(bs)) != -1) {
                 os.write(bs, 0, len);
             }
@@ -144,7 +144,7 @@ public class FileUtils
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // 完毕，关闭所有链接
+            // 瀹屾瘯锛屽叧闂墍鏈夐摼鎺�
             try {
                 os.close();
                 inputStream.close();
