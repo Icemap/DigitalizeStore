@@ -1,5 +1,7 @@
 package com.wqz.ds.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,11 @@ public class BusinessUnitInfoServiceImpl implements BusinessUnitInfoService
 	public BusinessUnitInfo selectById(Integer id)
 	{
 		return businessUnitInfoMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<BusinessUnitInfo> selectByBrandId(Integer brandId)
+	{
+		return businessUnitInfoMapper.selectByBrandId(brandId);
 	}
 }

@@ -3,6 +3,7 @@ package com.wqz.ds.controller;
 import java.io.IOException;
 import java.util.Date;
 
+import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.wqz.ds.bean.FormatResultBean;
 import com.wqz.ds.bean.PathBean;
 import com.wqz.ds.pojo.AllFace;
 import com.wqz.ds.service.impl.AllFaceServiceImpl;
@@ -62,8 +64,10 @@ public class AllFaceController
 	
 	@RequestMapping("/getByStoreId")
 	@ResponseBody
-	public Object getFaceByStoreId(Integer storeId, Integer start, Integer size)
+	public JSONPObject getFaceByStoreId(Integer storeId, Integer start, Integer size, String callback)
 	{
-		return allFaceServiceImpl.selectByStoreId(storeId, start, size);
+		FormatResultBean result = new FormatResultBean();
+		result.setResult(allFaceServiceImpl.selectByStoreId(storeId, start, size));
+		return new JSONPObject(callback, result);
 	}
 }

@@ -23,6 +23,12 @@
     where id = (select business_unit_id from user_info where id = #{userId,jdbcType=INTEGER})
   </select>
   
+  <select id="selectByBrandId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from business_unit_info
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from business_unit_info
     where id = #{id,jdbcType=INTEGER}

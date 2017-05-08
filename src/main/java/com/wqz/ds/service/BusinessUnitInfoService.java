@@ -1,5 +1,7 @@
 package com.wqz.ds.service;
 
+import java.util.List;
+
 import com.wqz.ds.pojo.BusinessUnitInfo;
 
 public interface BusinessUnitInfoService
@@ -10,4 +12,5 @@ public interface BusinessUnitInfoService
 	
 	BusinessUnitInfo selectByUserId(Integer userId);
 	BusinessUnitInfo selectById(Integer id);
+	List<BusinessUnitInfo> selectByBrandId(Integer brandId);
 }

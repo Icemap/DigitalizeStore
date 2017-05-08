@@ -43,6 +43,6 @@ public class AllFaceServiceImpl implements AllFaceService
 	@Override
 	public List<AllFace> selectByStoreId(Integer storeId, Integer start, Integer size)
 	{
-		return allFaceMapper.selectPage(start, size);
+		return allFaceMapper.selectByStoreId(storeId, start, size);
 	}
 }

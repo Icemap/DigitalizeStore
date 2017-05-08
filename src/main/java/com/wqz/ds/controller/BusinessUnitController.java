@@ -1,5 +1,7 @@
 package com.wqz.ds.controller;
 
+import java.util.List;
+
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -124,11 +126,27 @@ public class BusinessUnitController
 	
 	@RequestMapping("/selectByUserId")
 	@ResponseBody
-	public JSONPObject selectBusinessUnitByUserId(String callback,Integer userId,
-			String cmdUserName,String cmdPassword)
+	public JSONPObject selectBusinessUnitByUserId(String callback,Integer userId)
 	{
 		FormatResultBean result = new FormatResultBean();
 		BusinessUnitInfo r = businessUnitInfoServiceImpl.selectByUserId(userId);
+		if(r == null)
+		{
+			result = FormatResultBean.DataIsEmpty();
+			result.setResult(false);
+			return new JSONPObject(callback, result);
+		}
+		
+		result.setResult(r);
+		return new JSONPObject(callback, result);
+	}
+	
+	@RequestMapping("/selectByBrandId")
+	@ResponseBody
+	public JSONPObject selectByBrandId(String callback,Integer brandId)
+	{
+		FormatResultBean result = new FormatResultBean();
+		List<BusinessUnitInfo> r = businessUnitInfoServiceImpl.selectByBrandId(brandId);
 		if(r == null)
 		{
 			result = FormatResultBean.DataIsEmpty();
