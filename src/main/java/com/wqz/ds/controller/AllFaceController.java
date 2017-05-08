@@ -59,4 +59,11 @@ public class AllFaceController
 	{
 		return allFaceServiceImpl.select(start, size);
 	}
+	
+	@RequestMapping("/getByStoreId")
+	@ResponseBody
+	public Object getFaceByStoreId(Integer storeId, Integer start, Integer size)
+	{
+		return allFaceServiceImpl.selectByStoreId(storeId, start, size);
+	}
 }

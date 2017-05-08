@@ -39,4 +39,10 @@ public class AllFaceServiceImpl implements AllFaceService
 	{
 		return allFaceMapper.selectByPrimaryKey(faceId);
 	}
+	
+	@Override
+	public List<AllFace> selectByStoreId(Integer storeId, Integer start, Integer size)
+	{
+		return allFaceMapper.selectPage(start, size);
+	}
 }

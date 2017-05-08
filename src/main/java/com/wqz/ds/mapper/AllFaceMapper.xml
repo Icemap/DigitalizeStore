@@ -24,6 +24,14 @@
     limit #{start}, #{size}
   </select>
   
+  <select id="selectByStoreId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from all_face
+    where cameraId = #{storeId}
+    limit #{start}, #{size}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from all_face
     where id = #{id,jdbcType=INTEGER}

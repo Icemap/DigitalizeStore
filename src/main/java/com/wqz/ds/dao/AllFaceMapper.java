@@ -24,4 +24,9 @@ public interface AllFaceMapper {
     List<AllFace> selectPage(
     		@Param(value="start")Integer start,
     		@Param(value="size")Integer size);
+    
+    List<AllFace> selectByStoreId(
+    		@Param(value="storeId")Integer storeId,
+    		@Param(value="start")Integer start,
+    		@Param(value="size")Integer size);
 }

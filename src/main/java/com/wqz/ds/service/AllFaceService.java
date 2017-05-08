@@ -10,4 +10,5 @@ public interface AllFaceService
 	Boolean delete(Integer id);
 	List<AllFace> select(Integer start,Integer size);
 	AllFace selectById(Integer faceId);
+	List<AllFace> selectByStoreId(Integer storeId, Integer start, Integer size);
 }
