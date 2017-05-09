@@ -1,5 +1,7 @@
 package com.wqz.ds.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.annotation.MapperScan;
 
 import com.wqz.ds.pojo.BrandInfo;
@@ -19,4 +21,6 @@ public interface BrandInfoMapper {
     int updateByPrimaryKey(BrandInfo record);
     
     BrandInfo selectByUserId(Integer userId);
+    
+    List<BrandInfo> selectAll();
 }

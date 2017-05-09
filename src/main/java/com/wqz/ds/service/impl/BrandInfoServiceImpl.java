@@ -1,5 +1,7 @@
 package com.wqz.ds.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,11 @@ public class BrandInfoServiceImpl implements BrandInfoService
 	public BrandInfo selectBrandByUserId(Integer userId)
 	{
 		return brandInfoMapper.selectByUserId(userId);
+	}
+
+	@Override
+	public List<BrandInfo> selectAll()
+	{
+		return brandInfoMapper.selectAll();
 	}
 }

@@ -1,5 +1,7 @@
 package com.wqz.ds.controller;
 
+import java.util.List;
+
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -130,6 +132,29 @@ public class BrandController
 	{
 		FormatResultBean result = new FormatResultBean();
 		BrandInfo info = brandInfoServiceImpl.selectBrandByUserId(userId);
+		
+		if(info == null)
+		{
+			result = FormatResultBean.DataIsEmpty();
+			result.setResult(false);
+			return new JSONPObject(callback, result);
+		}
+		
+		result.setResult(info);
+		return new JSONPObject(callback, result);
+	}
+	
+	@RequestMapping("/selectAllByRoot")
+	@ResponseBody
+	public JSONPObject selectAllByRoot(String callback, String cmdUsername,String cmdPassword)
+	{
+		FormatResultBean result = new FormatResultBean();
+		
+		UserInfo userInfo = userServiceImpl.userLogin(cmdUsername, cmdPassword);
+		if(userInfo.getLevel() != 0)
+			return new JSONPObject(callback, FormatResultBean.PermissionDenied());
+		
+		List<BrandInfo> info = brandInfoServiceImpl.selectAll();
 		
 		if(info == null)
 		{

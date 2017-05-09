@@ -1,5 +1,7 @@
 package com.wqz.ds.service;
 
+import java.util.List;
+
 import com.wqz.ds.pojo.BrandInfo;
 
 public interface BrandInfoService
@@ -10,4 +12,5 @@ public interface BrandInfoService
 	
 	BrandInfo selectBrand(Integer brandId);
 	BrandInfo selectBrandByUserId(Integer userId);
+	List<BrandInfo> selectAll();
 }
