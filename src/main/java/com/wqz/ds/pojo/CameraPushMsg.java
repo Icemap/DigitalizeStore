@@ -21,6 +21,12 @@ public class CameraPushMsg {
 
     private String hold;
 
+    private Byte isHaveSeen;
+
+    private Byte isVip;
+
+    private Integer faceQuality;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +97,29 @@ public class CameraPushMsg {
 
     public void setHold(String hold) {
         this.hold = hold == null ? null : hold.trim();
+    }
+
+    public Byte getIsHaveSeen() {
+        return isHaveSeen;
+    }
+
+    public void setIsHaveSeen(Byte isHaveSeen) {
+        this.isHaveSeen = isHaveSeen;
+    }
+
+    public Byte getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(Byte isVip) {
+        this.isVip = isVip;
+    }
+
+    public Integer getFaceQuality() {
+        return faceQuality;
+    }
+
+    public void setFaceQuality(Integer faceQuality) {
+        this.faceQuality = faceQuality;
     }
 }

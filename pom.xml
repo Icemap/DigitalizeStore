@@ -218,13 +218,7 @@
 		    <version>3.2.17</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.hc.model</groupId>
-			<artifactId>model-util</artifactId>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/model-util-0.3.jar</systemPath>
-			<version>0.3</version>
-		</dependency>
+		
 	</dependencies>
   <build>
     <finalName>DigitalizeStore</finalName>

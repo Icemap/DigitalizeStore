@@ -35,4 +35,9 @@ public interface CameraPushMsgMapper {
     		@Param(value="storeId")Integer storeId,
     		@Param(value="startTime")String startTime,
     		@Param(value="endTime")String endTime);
+    
+    List<CameraPushMsg> getMsgByStoreId(
+    		@Param(value="storeId")Integer storeId,
+    		@Param(value="start")Integer start,
+    		@Param(value="size")Integer size);
 }

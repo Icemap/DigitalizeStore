@@ -37,7 +37,8 @@ public class CameraController
 	public JSONPObject pushMsg(String callback,Integer cameraId,
 			String datetime,Boolean isAdd,Integer age,
 			Boolean isMale,Boolean isEnterStore,
-			Integer storeId, String cmdUserName,String cmdPassword)
+			Integer storeId, String cmdUserName,String cmdPassword,Integer allFaceId,
+			Boolean isHaveSeen,Boolean isVip, Integer faceQuality)
 	{
 		FormatResultBean result = new FormatResultBean();
 		
@@ -68,7 +69,10 @@ public class CameraController
 		msg.setIsEnterStore(ByteBooleanUtils.boolean2Byte(isEnterStore));
 		msg.setIsMale(ByteBooleanUtils.boolean2Byte(isMale));
 		msg.setStoreId(storeId);
-		
+		msg.setHold(allFaceId.toString());
+		msg.setIsHaveSeen(ByteBooleanUtils.boolean2Byte(isHaveSeen));
+		msg.setIsVip(ByteBooleanUtils.boolean2Byte(isVip));
+		msg.setFaceQuality(faceQuality);
 		boolean r = cameraPushMsgServiceImpl.pushMsg(msg);
 		
 		if(!r)

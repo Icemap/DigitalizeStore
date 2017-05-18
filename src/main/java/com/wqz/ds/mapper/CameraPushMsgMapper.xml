@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wqz.ds.dao.CameraPushMsgMapper">
-  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraPushMsg">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="camera_id" jdbcType="INTEGER" property="cameraId" />
-    <result column="datetime" jdbcType="TIMESTAMP" property="datetime" />
-    <result column="is_add" jdbcType="TINYINT" property="isAdd" />
-    <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="is_male" jdbcType="TINYINT" property="isMale" />
-    <result column="is_enter_store" jdbcType="TINYINT" property="isEnterStore" />
-    <result column="store_id" jdbcType="INTEGER" property="storeId" />
-    <result column="hold" jdbcType="VARCHAR" property="hold" />
+  <resultMap id="BaseResultMap" type="com.wqz.ds.pojo.CameraPushMsg" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="camera_id" property="cameraId" jdbcType="INTEGER" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="is_add" property="isAdd" jdbcType="TINYINT" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="is_male" property="isMale" jdbcType="TINYINT" />
+    <result column="is_enter_store" property="isEnterStore" jdbcType="TINYINT" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="hold" property="hold" jdbcType="VARCHAR" />
+    <result column="is_have_seen" property="isHaveSeen" jdbcType="TINYINT" />
+    <result column="is_vip" property="isVip" jdbcType="TINYINT" />
+    <result column="face_quality" property="faceQuality" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, camera_id, datetime, is_add, age, is_male, is_enter_store, store_id, hold
+  <sql id="Base_Column_List" >
+    id, camera_id, datetime, is_add, age, is_male, is_enter_store, store_id, hold, is_have_seen, 
+    is_vip, face_quality
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -75,6 +79,16 @@
 		AND datetime &lt; #{endTime,jdbcType=VARCHAR}
   </select>
   
+  <select id="getMsgByStoreId" resultMap="BaseResultMap">
+	SELECT
+		*
+	FROM
+		camera_push_msg
+	WHERE
+		store_id = #{storeId,jdbcType=INTEGER}
+	LIMIT
+	    #{start},#{size}
+  </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from camera_push_msg
@@ -83,11 +97,12 @@
   <insert id="insert" parameterType="com.wqz.ds.pojo.CameraPushMsg">
     insert into camera_push_msg (id, camera_id, datetime, 
       is_add, age, is_male, 
-      is_enter_store, store_id, hold
+      is_enter_store, store_id, hold, is_have_seen, is_vip, face_quality
       )
     values (#{id,jdbcType=INTEGER}, #{cameraId,jdbcType=INTEGER}, #{datetime,jdbcType=TIMESTAMP}, 
       #{isAdd,jdbcType=TINYINT}, #{age,jdbcType=INTEGER}, #{isMale,jdbcType=TINYINT}, 
-      #{isEnterStore,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER}, #{hold,jdbcType=VARCHAR}
+      #{isEnterStore,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER}, #{hold,jdbcType=VARCHAR},
+      #{isHaveSeen,jdbcType=TINYINT},#{isVip,jdbcType=TINYINT},#{faceQuality,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wqz.ds.pojo.CameraPushMsg">
@@ -120,6 +135,15 @@
       <if test="hold != null">
         hold,
       </if>
+      <if test="isHaveSeen != null" >
+        is_have_seen,
+      </if>
+      <if test="isVip != null" >
+        is_vip,
+      </if>
+      <if test="faceQuality != null" >
+        face_quality,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -148,6 +172,15 @@
       </if>
       <if test="hold != null">
         #{hold,jdbcType=VARCHAR},
+      </if>
+      <if test="isHaveSeen != null" >
+        #{isHaveSeen,jdbcType=TINYINT},
+      </if>
+      <if test="isVip != null" >
+        #{isVip,jdbcType=TINYINT},
+      </if>
+      <if test="faceQuality != null" >
+        #{faceQuality,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -178,6 +211,15 @@
       <if test="hold != null">
         hold = #{hold,jdbcType=VARCHAR},
       </if>
+      <if test="isHaveSeen != null" >
+        is_have_seen = #{isHaveSeen,jdbcType=TINYINT},
+      </if>
+      <if test="isVip != null" >
+        is_vip = #{isVip,jdbcType=TINYINT},
+      </if>
+      <if test="faceQuality != null" >
+        face_quality = #{faceQuality,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -191,6 +233,9 @@
       is_enter_store = #{isEnterStore,jdbcType=TINYINT},
       store_id = #{storeId,jdbcType=INTEGER},
       hold = #{hold,jdbcType=VARCHAR}
+      is_have_seen = #{isHaveSeen,jdbcType=TINYINT},
+      is_vip = #{isVip,jdbcType=TINYINT},
+      face_quality = #{faceQuality,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

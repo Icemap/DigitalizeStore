@@ -10,7 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import com.hc.util.base.ClassResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 public class FileUtils
 {
@@ -22,7 +23,6 @@ public class FileUtils
 		{
 			reader = new BufferedReader(new FileReader(file));
 			String tempString = null;
-			// 涓�娆¤鍏ヤ竴琛岋紝鐩村埌璇诲叆null涓烘枃浠剁粨鏉�
 			while ((tempString = reader.readLine()) != null)
 			{
 				String[] tempArray = tempString.split(",");
@@ -90,14 +90,14 @@ public class FileUtils
 	
 	public static String readResourcesByLines(String path)
 	{
-		ClassResource res = new ClassResource(path);
+		Resource res = new ClassPathResource(path);
+		
 		try
 		{
 			return readFileByUtf8(res.getFile().getAbsolutePath());
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

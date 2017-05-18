@@ -72,8 +72,7 @@ public class UserController
 		
 		if(0 != userServiceImpl.getUsernameCount(username))
 		{
-			result.setErrorCode(6);
-			result.setErrorMsg("闁烩偓鍔嶉崺娑㈠触瀹ュ懎鍤掗悗娑櫭﹢锟�");
+			result = FormatResultBean.UsernameIsExist();
 			result.setResult(false);
 			return new JSONPObject(callback, result);
 		}

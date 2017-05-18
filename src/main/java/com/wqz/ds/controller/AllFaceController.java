@@ -2,6 +2,7 @@ package com.wqz.ds.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.wqz.ds.bean.CameraPushMsgEx;
 import com.wqz.ds.bean.FormatResultBean;
 import com.wqz.ds.bean.PathBean;
 import com.wqz.ds.pojo.AllFace;
 import com.wqz.ds.service.impl.AllFaceServiceImpl;
+import com.wqz.ds.service.impl.CameraPushMsgServiceImpl;
 import com.wqz.ds.utils.FileUtils;
 
 @Controller
@@ -24,6 +27,9 @@ public class AllFaceController
 {
 	@Autowired
 	AllFaceServiceImpl allFaceServiceImpl;
+	
+	@Autowired
+	CameraPushMsgServiceImpl cameraPushMsgServiceImpl;
 	
 	@RequestMapping("/push")
 	@ResponseBody
@@ -67,7 +73,8 @@ public class AllFaceController
 	public JSONPObject getFaceByStoreId(Integer storeId, Integer start, Integer size, String callback)
 	{
 		FormatResultBean result = new FormatResultBean();
-		result.setResult(allFaceServiceImpl.selectByStoreId(storeId, start, size));
+		List<CameraPushMsgEx> MsgList = cameraPushMsgServiceImpl.getMsgByStoreId(storeId, start, size);
+		result.setResult(MsgList);
 		return new JSONPObject(callback, result);
 	}
 }

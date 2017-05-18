@@ -2,9 +2,11 @@ package com.wqz.ds.bean;
 
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.wqz.ds.pojo.CameraPushMsg;
 import com.wqz.ds.pojo.StoreBillsPushMsg;
 import com.wqz.ds.utils.ByteBooleanUtils;
+import com.wqz.ds.utils.FileUtils;
 
 public class StoreDataBean
 {
@@ -21,6 +23,10 @@ public class StoreDataBean
 	public Float bringBagRate = 0.0f;
 	public Float interStoreRate = 0.0f;
 	public Integer notInStoreCount = 0;
+	public int haveSeenCount = 0;
+	public Float haveSeenRate = 0.0f;
+	public int vipCount = 0;
+	public Float vipRate = 0.0f;
 	public int[] customerTotalTime = new int[13];//9-21
 	public int[] moneyTotalTime = new int[13];//9-21
 	public int[] dealsCountTotalTime = new int[13];//9-21
@@ -34,12 +40,17 @@ public class StoreDataBean
 	
 	public StoreDataBean(String storeName,List<StoreBillsPushMsg> billsList,List<CameraPushMsg> camerasList)
 	{
+		String extraConfJson = FileUtils.readResourcesByLines("extra_conf.json");
+		ExtraConfBean ex = new Gson().fromJson(extraConfJson,
+				ExtraConfBean.class);
+		Float threshold = ex.faceQualityEffectThreshold;
 		this.storeName = storeName;
 		
 		for(CameraPushMsg cameraInfo : camerasList)
 		{
 			if(cameraInfo.getDatetime().getHours() - 9 < 0 || 
-	                  cameraInfo.getDatetime().getHours() - 9 >= customerTotalTime.length) continue;
+	                  cameraInfo.getDatetime().getHours() - 9 >= customerTotalTime.length ||
+	                  (cameraInfo.getFaceQuality() == null ? 0 : cameraInfo.getFaceQuality()) < threshold) continue;
 			
 			if(cameraInfo.getIsEnterStore().equals(ByteBooleanUtils.falseByte))
 			{
@@ -50,6 +61,12 @@ public class StoreDataBean
 			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte)) continue;
 			
 			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24小时
+			if(cameraInfo.getIsHaveSeen() != null 
+					&& cameraInfo.getIsHaveSeen().equals(ByteBooleanUtils.trueByte))
+				haveSeenCount ++;
+			if(cameraInfo.getIsVip() != null 
+					&& cameraInfo.getIsVip().equals(ByteBooleanUtils.trueByte))
+				vipCount ++;
 			
 			if(cameraInfo.getIsMale().equals(ByteBooleanUtils.trueByte))
 			{
@@ -119,10 +136,12 @@ public class StoreDataBean
 		
 		storeAllCount = storeManCount + storeWomanCount;
 		perBillCost = payManCount == 0 ? 0 : storeSalesMoney / payManCount;
-		storeManAndWomanRate = ((int)(storeManCount * 100.0)) / storeAllCount 
+		storeManAndWomanRate = storeAllCount == 0 ? "0:0" : ((int)(storeManCount * 100.0)) / storeAllCount 
 				+ ":" + ((int)(storeWomanCount * 100.0)) / storeAllCount;
 		
-		bringBagRate = payManCount / (storeAllCount * 1.0f);
-		interStoreRate = (camerasList.size() - notInStoreCount) / (camerasList.size() * 1.0f);
+		bringBagRate = storeAllCount == 0 ? 0.0f : payManCount / (storeAllCount * 1.0f);
+		interStoreRate = camerasList.isEmpty() ? 0.0f : (camerasList.size() - notInStoreCount) / (camerasList.size() * 1.0f);
+		vipRate = storeAllCount == 0 ? 0.0f : vipCount / (storeAllCount * 1.0f);
+		haveSeenRate = storeAllCount == 0 ? 0.0f : haveSeenCount / (storeAllCount * 1.0f);
 	}
 }
