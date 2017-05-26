@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.wqz.ds.bean.CameraPushMsgEx;
 import com.wqz.ds.bean.FormatResultBean;
 import com.wqz.ds.bean.PathBean;
 import com.wqz.ds.pojo.AllFace;
 import com.wqz.ds.service.impl.AllFaceServiceImpl;
-import com.wqz.ds.service.impl.CameraPushMsgServiceImpl;
+import com.wqz.ds.utils.ByteBooleanUtils;
 import com.wqz.ds.utils.FileUtils;
 
 @Controller
@@ -28,15 +27,14 @@ public class AllFaceController
 	@Autowired
 	AllFaceServiceImpl allFaceServiceImpl;
 	
-	@Autowired
-	CameraPushMsgServiceImpl cameraPushMsgServiceImpl;
-	
 	@RequestMapping("/push")
 	@ResponseBody
 	public Object pushAllFace(
 			@RequestParam(value = "cameraId",required = true)Integer cameraId,
 			@RequestParam(value = "timeStramp",required = true)Long timeStramp,
-			@RequestParam(value = "pic",required = true)MultipartFile pic)
+			@RequestParam(value = "pic",required = true)MultipartFile pic,
+			@RequestParam(value = "isMale",required = true)Boolean isMale,
+			@RequestParam(value = "age",required = true)Integer age)
 	{
 		PathBean pathBean = new Gson().fromJson(FileUtils.
 				readResourcesByLines("path.json"), PathBean.class);
@@ -47,6 +45,8 @@ public class AllFaceController
 		AllFace allFace = new AllFace();
 		allFace.setCameraid(cameraId);
 		allFace.setDatetime(new Date(timeStramp));
+		allFace.age = age;
+		allFace.isMale = ByteBooleanUtils.boolean2Byte(isMale);
 		try
 		{
 			FileUtils.savePic(pic.getInputStream(), filename, allFacePath);
@@ -73,7 +73,7 @@ public class AllFaceController
 	public JSONPObject getFaceByStoreId(Integer storeId, Integer start, Integer size, String callback)
 	{
 		FormatResultBean result = new FormatResultBean();
-		List<CameraPushMsgEx> MsgList = cameraPushMsgServiceImpl.getMsgByStoreId(storeId, start, size);
+		List<AllFace> MsgList = allFaceServiceImpl.selectByStoreId(storeId, start, size);
 		result.setResult(MsgList);
 		return new JSONPObject(callback, result);
 	}

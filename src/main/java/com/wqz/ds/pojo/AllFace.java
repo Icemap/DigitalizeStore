@@ -11,6 +11,9 @@ public class AllFace {
 
     private Date datetime;
 
+    public Byte isMale;
+    public Integer age;
+    
     public Integer getId() {
         return id;
     }
