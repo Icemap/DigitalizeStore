@@ -1,8 +1,14 @@
 package com.wqz.ds.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +55,50 @@ public class JpushService
 	
 	private static String APP_KEY = "2936fe5db1a138eb4bef314a";
 	private static String MASTER_SECRET = "7f51133320b18cde7ab0c7ff";
+	private static Map<Integer, Long> vipRejectList = new HashMap<>(); 
+	private static Map<Integer, Long> allFaceRejectList = new HashMap<>(); 
+	
+	@PostConstruct
+	public void startTask()
+	{
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask()
+        {
+                public void run()
+                {
+                	rejectListGC();
+                }
+        }, 0,60 * 1000);//1h sync once
+	}
+	
+	//半小时GC
+	private void rejectListGC()
+	{
+		Iterator<Map.Entry<Integer, Long>> it = vipRejectList.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry<Integer, Long> entry = it.next();
+			if(entry.getValue() - new Date().getTime() >= 60 * 1000 * 30)
+				it.remove();
+		}
+		it = allFaceRejectList.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry<Integer, Long> entry = it.next();
+			if(entry.getValue() - new Date().getTime() >= 60 * 1000 * 30)
+				it.remove();
+		}
+	}
+	
+	private Boolean isVipReject(Integer vipId)
+	{
+		return !vipRejectList.containsKey(vipId);
+	}
+	
+	private Boolean isAllFaceReject(Integer faceId)
+	{
+		return !allFaceRejectList.containsKey(faceId);
+	}
 	
 	private PushPayload getVipPushInfo(Integer vipId, String storeId, String alert, String title,String mode) 
 	{
@@ -119,11 +169,15 @@ public class JpushService
 		PushPayload payload = null;
 		if(mode.equals("vip"))
 		{
+			if(isVipReject(id)) return false;
 			payload = getVipPushInfo(id, storeId, alert, title, mode);
+			vipRejectList.put(id, new Date().getTime());
 		}
 		else if(mode.equals("face"))
 		{
+			if(isAllFaceReject(id)) return false;
 			payload = getPushFaceInfo(id, storeId, alert, title, mode);
+			allFaceRejectList.put(id, new Date().getTime());
 		}
 		
 		log.debug(new Gson().toJson(payload));
