@@ -1,7 +1,9 @@
 package com.wqz.ds.thrift.core;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.wqz.ds.pojo.AllFace;
 import com.wqz.ds.pojo.CameraPushMsg;
 import com.wqz.ds.service.impl.AllFaceServiceImpl;
 import com.wqz.ds.service.impl.CameraPushMsgServiceImpl;
+import com.wqz.ds.service.impl.ClerkFaceServiceImpl;
 import com.wqz.ds.service.impl.JpushService;
 import com.wqz.ds.utils.ByteBooleanUtils;
 import com.wqz.ds.utils.FileUtils;
@@ -26,6 +29,8 @@ public class PostFaceImpl implements PostFace.Iface
 	CameraPushMsgServiceImpl cameraPushMsgServiceImpl;
 	@Autowired
 	AllFaceServiceImpl allFaceServiceImpl;
+	@Autowired
+	ClerkFaceServiceImpl clerkFaceServiceImpl;
 	
 	@Override
 	public String clientFindAFace(FaceInfo faceInfo, ClientInfo clientInfo) throws TException
@@ -73,5 +78,16 @@ public class PostFaceImpl implements PostFace.Iface
 			result += allFaceServiceImpl.insert(allFace);
 		}
 		return result;
+	}
+
+	@Override
+	public List<com.wqz.ds.thrift.core.ClerkFace> getClerkFaceByStoreId(int storeId) throws TException
+	{
+		List<com.wqz.ds.pojo.ClerkFace> src = clerkFaceServiceImpl.selectByStoreId(storeId);
+		List<com.wqz.ds.thrift.core.ClerkFace> target = new ArrayList<>();
+		for(com.wqz.ds.pojo.ClerkFace srcItem : src)
+			target.add(new com.wqz.ds.thrift.core.ClerkFace(
+					srcItem.getId(),srcItem.getPic(),srcItem.getStoreid()));
+		return target;
 	}
 }

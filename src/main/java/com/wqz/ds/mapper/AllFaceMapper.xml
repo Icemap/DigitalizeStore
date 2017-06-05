@@ -25,6 +25,7 @@
     select 
     <include refid="Base_Column_List" />
     from all_face
+    ORDER BY id DESC
     limit #{start}, #{size}
   </select>
   
@@ -33,6 +34,7 @@
     <include refid="Base_Column_List" />
     from all_face
     where cameraId in (select id from camera_info where store_id = #{storeId}) 
+    ORDER BY id DESC
     limit #{start}, #{size}
   </select>
   
