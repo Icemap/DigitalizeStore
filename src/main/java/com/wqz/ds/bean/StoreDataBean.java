@@ -1,11 +1,14 @@
 package com.wqz.ds.bean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.wqz.ds.pojo.CameraPushMsg;
 import com.wqz.ds.pojo.StoreBillsPushMsg;
 import com.wqz.ds.utils.ByteBooleanUtils;
+import com.wqz.ds.utils.DateTimeUtils;
 import com.wqz.ds.utils.FileUtils;
 
 public class StoreDataBean
@@ -38,6 +41,8 @@ public class StoreDataBean
 	public int[] manAgeArray = new int[6];
 	public int[] womanAgeArray = new int[6];
 	
+	public Map<String, Integer> dateMap = new HashMap<>();
+	
 	public StoreDataBean(String storeName,List<StoreBillsPushMsg> billsList,List<CameraPushMsg> camerasList)
 	{
 		String extraConfJson = FileUtils.readResourcesByLines("extra_conf.json");
@@ -59,6 +64,12 @@ public class StoreDataBean
 			}
 			
 			if(cameraInfo.getIsAdd().equals(ByteBooleanUtils.falseByte)) continue;
+			
+			String dateMapKey = DateTimeUtils.date2Str(cameraInfo.getDatetime()).split(" ")[0].replace("-", "");
+			if(dateMap.containsKey(dateMapKey))
+				dateMap.replace(dateMapKey, dateMap.get(dateMapKey) + 1);
+			else
+				dateMap.put(dateMapKey, 1);
 			
 			customerTotalTime[cameraInfo.getDatetime().getHours() - 9] ++;//24小时
 			if(cameraInfo.getIsHaveSeen() != null 

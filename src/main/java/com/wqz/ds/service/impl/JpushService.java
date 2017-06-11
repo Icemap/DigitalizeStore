@@ -92,12 +92,12 @@ public class JpushService
 	
 	private Boolean isVipReject(Integer vipId)
 	{
-		return !vipRejectList.containsKey(vipId);
+		return vipRejectList.containsKey(vipId);
 	}
 	
 	private Boolean isAllFaceReject(Integer faceId)
 	{
-		return !allFaceRejectList.containsKey(faceId);
+		return allFaceRejectList.containsKey(faceId);
 	}
 	
 	private PushPayload getVipPushInfo(Integer vipId, String storeId, String alert, String title,String mode) 
